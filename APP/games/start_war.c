@@ -131,16 +131,16 @@ void star_war_play()
             // test
             score = 100;
             sprintf(tmp, "%d", score);
-            OLED_PrintString(7, 30, "得分:", &font12x12, OLED_COLOR_NORMAL);
-            OLED_PrintString(40, 30, tmp, &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(37, 30, "得分:", &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(45, 30, tmp, &font12x12, OLED_COLOR_NORMAL);
 
-            OLED_PrintString(7, 40, "等级:", &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(37, 40, "等级:", &font12x12, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", level);
-            OLED_PrintString(40, 40, tmp, &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(45, 40, tmp, &font12x12, OLED_COLOR_NORMAL);
 
-            OLED_PrintString(7, 50, "时间(s):", &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(37, 50, "时间(s):", &font12x12, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", score);
-            OLED_PrintString(40, 50, tmp, &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(45, 50, tmp, &font12x12, OLED_COLOR_NORMAL);
 
             OLED_ShowFrame();
         }

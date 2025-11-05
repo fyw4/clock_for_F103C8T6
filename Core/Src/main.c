@@ -123,7 +123,6 @@ int main(void)
 		info_message();
 	}
 
-
   }
   /* USER CODE END 3 */
 }
