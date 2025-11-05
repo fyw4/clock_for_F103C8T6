@@ -6,6 +6,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include "star_war.h"
 #include "key.h"
 
@@ -39,7 +41,7 @@ unsigned long game_begin_time = 0;                 // 游戏开始时间
 unsigned long flying_saucer_bullet_occur_time = 0; // 随机生成下一个飞碟子弹出现时间
 unsigned long game_total_time = 0;                 // 游戏时间
 unsigned long level_time = 0;                      // 游戏时间
-int spaceship_position_y = 30;                     // 飞机初始位置（纵坐标）
+int spaceship_position_y = 0;                     // 飞机初始位置（纵坐标）
 
 void game_init()
 {
@@ -115,6 +117,11 @@ void star_war_play()
     char tmp[15] = {0};
     while (1)
     {
+        if (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) == GPIO_PIN_RESET)
+        {
+            return;
+        }
+
         dt = HAL_GetTick() - start_tt;
 
         if (gameover == 0)
@@ -123,43 +130,124 @@ void star_war_play()
 
             star_draw(); // 画背景星星
 
-            if (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) == GPIO_PIN_RESET)
+            if (poc == 0)
             {
-                return;
+                game_begin_time = HAL_GetTick() - start_tt;           // 获取游戏开始时间
+                flying_saucer_bullet_occur_time = rand() % 800 + 400; // 随机生成下一个飞碟子弹出现时间
+                poc = 1;
             }
 
-            // test
-            score = 100;
-            sprintf(tmp, "%d", score);
-            OLED_PrintString(37, 30, "得分:", &font12x12, OLED_COLOR_NORMAL);
-            OLED_PrintString(45, 30, tmp, &font12x12, OLED_COLOR_NORMAL);
+            game_total_time = HAL_GetTick() - start_tt; // 当前时间
 
-            OLED_PrintString(37, 40, "等级:", &font12x12, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", level);
-            OLED_PrintString(45, 40, tmp, &font12x12, OLED_COLOR_NORMAL);
+            if ((game_total_time - level_time) > 50000) // 游戏时间超过50秒
+            {
+                level_time = game_total_time; // 更新下一等级开始时间
+                level = level + 1;            // 等级+1
 
-            OLED_PrintString(37, 50, "时间(s):", &font12x12, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", score);
-            OLED_PrintString(45, 50, tmp, &font12x12, OLED_COLOR_NORMAL);
+                flying_saucer_bullet_speed += 1; // 飞碟子弹移动1步
+                if (level % 2 == 0)
+                {
+                    flying_saucer_move_step += 1; // 飞碟移动步长+1
+                    flying_saucer_radius -= 1;    // 飞碟半径-1
+                }
+            }
+
+            if ((flying_saucer_bullet_occur_time + game_begin_time) < game_total_time)
+            {
+                poc = 0;
+                flying_saucer_bullet_size_level += 1; // 飞碟子弹变大
+                if (flying_saucer_bullet_size_level == 1)
+                {
+                    rx = 95;
+                    ry = flying_saucer_position_y;
+                }
+                if (flying_saucer_bullet_size_level == 2)
+                {
+                    rx2 = 95;
+                    ry2 = flying_saucer_position_y;
+                }
+                if (flying_saucer_bullet_size_level == 3)
+                {
+                    rx3 = 95;
+                    ry3 = flying_saucer_position_y;
+                }
+                if (flying_saucer_bullet_size_level == 4)
+                {
+                    rx4 = 95;
+                    ry4 = flying_saucer_position_y;
+                }
+            }
+
+            if (flying_saucer_bullet_size_level > 0)
+            {
+                OLED_DrawCircle(rx, ry, 2, 0);
+                rx = rx - flying_saucer_bullet_speed;
+            }
+
+            if (flying_saucer_bullet_size_level > 1)
+            {
+                OLED_DrawCircle(rx2, ry2, 1, 0);
+                rx2 = rx2 - flying_saucer_bullet_speed;
+            }
+
+            if (flying_saucer_bullet_size_level > 2)
+            {
+                OLED_DrawCircle(rx3, ry3, 4, 0);
+                rx3 = rx3 - flying_saucer_bullet_speed;
+            }
+
+            if (flying_saucer_bullet_size_level > 3)
+            {
+                OLED_DrawCircle(rx4, ry4, 2, 0);
+                rx4 = rx4 - flying_saucer_bullet_speed;
+            }
+            if (get_key_status() == UP_KEY && spaceship_position_y >= 2) // 向上
+            {
+                spaceship_position_y -= 2;
+            }
+
+            if (get_key_status() == DOWN_KEY && spaceship_position_y <= 46) // 向下
+            {
+                spaceship_position_y += 2;
+            }
+
+            if (get_key_status() == SHOOT_KEY && bullet_exit == 0) // 射击
+            {
+                bullet_exit = 1;
+                metx = 6;
+                mety = spaceship_position_y + 8;
+            }
+            if (bullet_exit == 1)
+            {
+                metx = metx + 8;
+
+                OLED_DrawLine(metx, mety, metx + 4, mety, OLED_COLOR_NORMAL); // 子弹飞行
+            }
+
+           OLED_DrawImage(4, spaceship_position_y, &flying_saucer_Img, OLED_COLOR_NORMAL);    //  飞船
+			// OLED_DrawCircle(centar, flying_saucer_position_y, flying_saucer_radius, 0);				// 飞碟小圈
+			// OLED_DrawCircle(centar + 2, flying_saucer_position_y + 3, flying_saucer_radius / 3, 1); // 飞碟大圈
+
 
             OLED_ShowFrame();
+
         }
 
         if (gameover == 1)
         {
             OLED_NewFrame();
 
-            OLED_PrintString(7, 30, "得分:", &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(37, 25, "得分:", &font12x12, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", score);
-            OLED_PrintString(72, 30, tmp, &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(85, 25, tmp, &font12x12, OLED_COLOR_NORMAL);
 
-            OLED_PrintString(7, 40, "等级:", &font12x12, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", score);
-            OLED_PrintString(72, 40, tmp, &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(37, 35, "等级:", &font12x12, OLED_COLOR_NORMAL);
+            sprintf(tmp, "%d", level);
+            OLED_PrintString(85, 35, tmp, &font12x12, OLED_COLOR_NORMAL);
 
-            OLED_PrintString(7, 50, "时间(s):", &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(37, 50, "时间(s):", &font12x12, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", score);
-            OLED_PrintString(72, 50, tmp, &font12x12, OLED_COLOR_NORMAL);
+            OLED_PrintString(85, 50, tmp, &font12x12, OLED_COLOR_NORMAL);
 
             OLED_ShowFrame();
 

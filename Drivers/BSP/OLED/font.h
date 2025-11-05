@@ -47,7 +47,7 @@ typedef struct Image {
   const uint8_t *data; // 图片数据
 } Image;
 
-extern const Image Arrow_Data_Img;
+extern Image Arrow_Data_Img;
 
 extern const unsigned char dioda16[32];
 

@@ -1,4 +1,4 @@
-start_war.c:44:6:game_init	4	static
-start_war.c:76:5:get_key_status	8	static
-start_war.c:87:6:star_draw	8	static
-start_war.c:109:6:star_war_play	48	static
+start_war.c:46:6:game_init	4	static
+start_war.c:78:5:get_key_status	8	static
+start_war.c:89:6:star_draw	8	static
+start_war.c:111:6:star_war_play	56	static
