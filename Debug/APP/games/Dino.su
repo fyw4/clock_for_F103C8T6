@@ -1,0 +1,7 @@
+../APP/games/Dino.c:37:6:introMessage	16	static
+../APP/games/Dino.c:46:6:show_line	24	static
+../APP/games/Dino.c:70:6:move_dino	16	static
+../APP/games/Dino.c:86:6:move_tree	16	static
+../APP/games/Dino.c:97:6:display_score	24	static
+../APP/games/Dino.c:115:6:tree_collision_judge	32	static
+../APP/games/Dino.c:136:6:dino_play	64	static
