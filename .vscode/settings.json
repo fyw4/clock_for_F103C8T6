@@ -1,6 +1,15 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "oled.h": "c"
+        "oled.h": "c",
+        "climits": "c",
+        "cmath": "c",
+        "cstdarg": "c",
+        "cstdio": "c",
+        "cstdlib": "c",
+        "limits": "c",
+        "type_traits": "c",
+        "typeinfo": "c",
+        "font.h": "c"
     }
 }
