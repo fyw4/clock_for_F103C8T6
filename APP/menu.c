@@ -29,13 +29,13 @@ int menu2_games()
 			flag--;
 			if (flag == 0)
 			{
-				flag = 2;
+				flag = 3;
 			}
 		}
 		if (KeyNum == 2) // 下一项
 		{
 			flag++;
-			if (flag == 3)
+			if (flag == 4)
 			{
 				flag = 1;
 			}
@@ -62,19 +62,27 @@ int menu2_games()
 		else if (2 == action)
 		{
 			star_war_play();
-			
+
 			action = 0;
 			HAL_Delay(300);
 		}
-		
+		else if(3 == action)
+		{
+			flappy_bird_play();
+
+			action = 0;
+			HAL_Delay(300);
+		}
+
 		switch (flag)
 		{
 		case 1:
 		{
 			OLED_NewFrame();
 			OLED_DrawImage(0, 0, &Arrow_Data_Img, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 0, "小恐龙游戏", &font16x16, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 16, "星球大战游戏", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 0, "跳跃小恐龙", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 16, "星球大战", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 32, "下坠小鸟", &font16x16, OLED_COLOR_NORMAL);
 			OLED_ShowFrame();
 
 			break;
@@ -83,8 +91,9 @@ int menu2_games()
 		{
 			OLED_NewFrame();
 			OLED_DrawImage(0, 16, &Arrow_Data_Img, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 0, "小恐龙游戏", &font16x16, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 16, "星球大战游戏", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 0, "跳跃小恐龙", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 16, "星球大战", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 32, "下坠小鸟", &font16x16, OLED_COLOR_NORMAL);
 			OLED_ShowFrame();
 			break;
 		}
@@ -92,8 +101,19 @@ int menu2_games()
 		{
 			OLED_NewFrame();
 			OLED_DrawImage(0, 32, &Arrow_Data_Img, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 0, "小恐龙游戏", &font16x16, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 16, "星球大战游戏", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 0, "跳跃小恐龙", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 16, "星球大战", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 32, "下坠小鸟", &font16x16, OLED_COLOR_NORMAL);
+			OLED_ShowFrame();
+			break;
+		}
+		case 4:
+		{
+			OLED_NewFrame();
+			OLED_DrawImage(0, 48, &Arrow_Data_Img, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 0, "跳跃小恐龙", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 16, "星球大战", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 32, "下坠小鸟", &font16x16, OLED_COLOR_NORMAL);
 			OLED_ShowFrame();
 			break;
 		}

@@ -8,6 +8,7 @@
 #include "Dino.h"
 #include "font.h"
 #include "oled.h"
+#include "key.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
@@ -48,9 +49,9 @@ void show_line()
   int line_end = 1;
   OLED_NewFrame();
   OLED_DrawImage(DINO_INIT_X, DINO_INIT_Y, &dino_jumpsImg, OLED_COLOR_NORMAL); // 绘制恐龙
-  for (;;)
+  while (1)
   {
-    if (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) == GPIO_PIN_RESET)
+    if (KEY_Back == GPIO_PIN_RESET)
     {
       return;
     }
@@ -155,12 +156,12 @@ void dino_play()
   {
     OLED_NewFrame();
 
-    if (HAL_GPIO_ReadPin(Up_GPIO_Port, Up_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(Down_GPIO_Port, Down_Pin) == GPIO_PIN_RESET || HAL_GPIO_ReadPin(Confirm_GPIO_Port, Confirm_Pin) == GPIO_PIN_RESET)
+    if (KEY_Up == GPIO_PIN_RESET || KEY_Down == GPIO_PIN_RESET || KEY_Confirm == GPIO_PIN_RESET)
     {
       if (jump == 0)
         jump = 1;
     }
-    else if (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) == GPIO_PIN_RESET)
+    else if (KEY_Back == GPIO_PIN_RESET)
     {
       return;
     }
@@ -168,7 +169,7 @@ void dino_play()
     if (tree_x <= (dino_right - ((jump < 5) ? jump : 5)) && tree_x > (DINO_INIT_X + 1) && (dino_y + dino_back_legImg.h) >= (BASE_LINE_Y - tree->h))
     { // 撞树了
       tree_collision_judge(tree_x, tree1_x, score, jump, dino_y, dino_right, tree, tree1);
-      while (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) != GPIO_PIN_RESET)
+      while (KEY_Back != GPIO_PIN_RESET)
         ;
       break;
     }
@@ -177,7 +178,7 @@ void dino_play()
     {
 
       tree_collision_judge(tree1_x, tree_x, score, jump, dino_y, dino_right, tree, tree1);
-      while (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) != GPIO_PIN_RESET)
+      while (KEY_Back != GPIO_PIN_RESET)
         ;
       break;
     }

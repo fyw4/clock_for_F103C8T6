@@ -90,11 +90,11 @@ void game_init()
 
 int get_key_status()
 {
-    if (KEY_Up == 0)
+    if (KEY_Up == GPIO_PIN_RESET)
         return UP_KEY;
-    if (KEY_Down == 0)
+    if (KEY_Down == GPIO_PIN_RESET)
         return DOWN_KEY;
-    if (KEY_Confirm == 0)
+    if (KEY_Confirm == GPIO_PIN_RESET)
         return SHOOT_KEY;
     return 0;
 }
@@ -133,7 +133,7 @@ void star_war_play()
 
     while (1)
     {
-        if (HAL_GPIO_ReadPin(Back_GPIO_Port, Back_Pin) == GPIO_PIN_RESET)
+        if (KEY_Back == GPIO_PIN_RESET)
         {
             return;
         }
@@ -197,8 +197,6 @@ void star_war_play()
                     bullet4_active = 1; // 激活子弹4
                 }
             }
-
-            // }
 
             if (bullet1_active)
             {
@@ -278,17 +276,17 @@ void star_war_play()
             OLED_DrawCircle(flying_saucer_center_position_x, flying_saucer_center_position_y, flying_saucer_radius, OLED_COLOR_NORMAL);             // 飞碟小圈
             OLED_DrawCircle(flying_saucer_center_position_x + 2, flying_saucer_center_position_y + 3, flying_saucer_radius / 3, OLED_COLOR_NORMAL); // 飞碟大圈
 
-            OLED_PrintASCIIString(110, 0, "sc", &afont8x6, OLED_COLOR_NORMAL);
+            OLED_PrintASCIIString(28, 0, "score:", &afont8x6, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", score);
-            OLED_PrintASCIIString(116, 10, tmp, &afont8x6, OLED_COLOR_NORMAL);
+            OLED_PrintASCIIString(64, 0, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
-            OLED_PrintASCIIString(110, 20, "lf", &afont8x6, OLED_COLOR_NORMAL);
+            OLED_PrintASCIIString(28, 55, "life:", &afont8x6, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", life_count);
-            OLED_PrintASCIIString(116, 30, tmp, &afont8x6, OLED_COLOR_NORMAL);
+            OLED_PrintASCIIString(64, 55, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
-            OLED_PrintASCIIString(110, 40, "tm", &afont8x6, OLED_COLOR_NORMAL);
+            OLED_PrintASCIIString(116, 45, "tm", &afont8x6, OLED_COLOR_NORMAL);
             sprintf(tmp, "%d", game_running_time / 1000);
-            OLED_PrintASCIIString(116, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
+            OLED_PrintASCIIString(116, 55, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
             OLED_ShowFrame();
 

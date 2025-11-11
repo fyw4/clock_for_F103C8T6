@@ -10,6 +10,8 @@
         "limits": "c",
         "type_traits": "c",
         "typeinfo": "c",
-        "font.h": "c"
+        "font.h": "c",
+        "main.h": "c",
+        "flappy_bird.h": "c"
     }
 }

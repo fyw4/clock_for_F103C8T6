@@ -1,7 +1,7 @@
-Dino.c:37:6:introMessage	16	static
-Dino.c:46:6:show_line	24	static
-Dino.c:70:6:move_dino	16	static
-Dino.c:86:6:move_tree	16	static
-Dino.c:97:6:display_score	24	static
-Dino.c:115:6:tree_collision_judge	32	static
-Dino.c:136:6:dino_play	64	static
+Dino.c:38:6:introMessage	16	static
+Dino.c:47:6:show_line	24	static
+Dino.c:71:6:move_dino	16	static
+Dino.c:87:6:move_tree	16	static
+Dino.c:98:6:display_score	24	static
+Dino.c:116:6:tree_collision_judge	32	static
+Dino.c:137:6:dino_play	64	static

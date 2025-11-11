@@ -1,5 +1,7 @@
-APP/games/Dino.o: ../APP/games/Dino.c ../APP/games/Dino.h \
- ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+APP/games/flappy_bird.o: ../APP/games/flappy_bird.c \
+ ../APP/games/flappy_bird.h ../Drivers/BSP/OLED/font.h \
+ ../Drivers/BSP/KEY/key.h ../Core/Inc/main.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -24,10 +26,13 @@ APP/games/Dino.o: ../APP/games/Dino.c ../APP/games/Dino.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
- ../Drivers/BSP/OLED/oled.h ../Drivers/BSP/OLED/font.h \
- ../Drivers/BSP/OLED/font.h ../Drivers/BSP/KEY/key.h
+ ../Drivers/BSP/OLED/oled.h ../Drivers/BSP/OLED/font.h
 
-../APP/games/Dino.h:
+../APP/games/flappy_bird.h:
+
+../Drivers/BSP/OLED/font.h:
+
+../Drivers/BSP/KEY/key.h:
 
 ../Core/Inc/main.h:
 
@@ -84,7 +89,3 @@ APP/games/Dino.o: ../APP/games/Dino.c ../APP/games/Dino.h \
 ../Drivers/BSP/OLED/oled.h:
 
 ../Drivers/BSP/OLED/font.h:
-
-../Drivers/BSP/OLED/font.h:
-
-../Drivers/BSP/KEY/key.h:

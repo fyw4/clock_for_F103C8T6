@@ -179,6 +179,7 @@ void OLED_SetPixel(uint8_t x, uint8_t y, OLED_ColorMode color)
     return;
   if (!color)
   {
+
     OLED_GRAM[y / 8][x] |= 1 << (y % 8);
   }
   else
@@ -628,9 +629,9 @@ void OLED_PrintString(uint8_t x, uint8_t y, char *str, const Font *font, OLED_Co
 
 void OLED_DrawPoint(int16_t X, int16_t Y)
 {
-	if (X >= 0 && X <= 127 && Y >= 0 && Y <= 63) // 超出屏幕的内容不显示
-	{
-		/*将显存数组指定位置的一个Bit数据置1*/
-		OLED_GRAM[Y / 8][X] |= 0x01 << (Y % 8);
-	}
+  if (X >= 0 && X <= 127 && Y >= 0 && Y <= 63) // 超出屏幕的内容不显示
+  {
+    /*将显存数组指定位置的一个Bit数据置1*/
+    OLED_GRAM[Y / 8][X] |= 0x01 << (Y % 8);
+  }
 }
