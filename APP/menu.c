@@ -46,7 +46,7 @@ int menu2_games()
 			OLED_ShowFrame();
 			action = flag;
 		}
-		if(KeyNum == 4) // 后退
+		if (KeyNum == 4) // 后退
 		{
 			return 0;
 		}
@@ -66,7 +66,7 @@ int menu2_games()
 			action = 0;
 			HAL_Delay(300);
 		}
-		else if(3 == action)
+		else if (3 == action)
 		{
 			flappy_bird_play();
 

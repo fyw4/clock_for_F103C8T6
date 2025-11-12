@@ -12,6 +12,10 @@
         "typeinfo": "c",
         "font.h": "c",
         "main.h": "c",
-        "flappy_bird.h": "c"
+        "flappy_bird.h": "c",
+        "cstdint": "c",
+        "time.h": "c",
+        "rtc.h": "c",
+        "ole.h": "c"
     }
 }

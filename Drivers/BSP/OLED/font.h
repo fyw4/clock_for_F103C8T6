@@ -37,6 +37,7 @@ typedef struct Font {
 extern const Font font16x16;
 extern const Font font12x12;
 extern const Font font8x6;
+extern const Font font64x16;
 
 /**
  * @brief 图片结构体
