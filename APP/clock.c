@@ -12,18 +12,18 @@
 #include "font.h"
 #include "oled.h"
 
-RTC_TimeTypeDef MyRTC_Time; // Ê±¼ä
-RTC_DateTypeDef MyRTC_Date; // ÈÕÆÚ
+RTC_TimeTypeDef MyRTC_Time; // Ê±ï¿½ï¿½
+RTC_DateTypeDef MyRTC_Date; // ï¿½ï¿½ï¿½ï¿½
 
 int check_key_press(void)
 {
-	// ¿ÉÒÔÌí¼Ó°´¼üÏû¶¶Âß¼­
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿?
 	if (KEY_Back == GPIO_PIN_RESET)
 	{
-		HAL_Delay(10); // ¼òµ¥Ïû¶¶
+		HAL_Delay(10); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (KEY_Back == GPIO_PIN_RESET)
 		{
-			return 1; // °´¼üÈ·Êµ±»°´ÏÂ
+			return 1; // ï¿½ï¿½ï¿½ï¿½È·Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		}
 	}
 	return 0;
@@ -41,21 +41,37 @@ int clock_UI()
 	{
 		if (check_key_press())
 		{
-			return; // °´¼ü°´ÏÂºóÁ¢¼´·µ»Ø
+			return; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		}
 
 		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
 		HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
 
+		memset(tmp, 0, sizeof(tmp));
+		
 		OLED_NewFrame();
-		// sprintf(tmp, "%02d-%02d-%02d", MyRTC_Date.Year, MyRTC_Date.Month, MyRTC_Date.Date);
-		// OLED_PrintASCIIString(16, 0, tmp, &afont16x8, OLED_COLOR_NORMAL);
 
-		// sprintf(tmp, "%02d:%02d:%02d", MyRTC_Time.Hours, MyRTC_Time.Minutes, MyRTC_Time.Seconds);
-		// OLED_PrintASCIIString(16, 20, tmp, &afont24x12, OLED_COLOR_NORMAL);
+		if (MyRTC_Time.Seconds % 2 == 0)
+		{
+			
+			sprintf(tmp, "%02d:%02d", MyRTC_Time.Hours, MyRTC_Time.Minutes);
+			OLED_PrintASCIIString(3, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
 
-		sprintf(tmp, "%02d:%02d:%02d", MyRTC_Time.Hours, MyRTC_Time.Minutes, MyRTC_Time.Seconds);
-		OLED_PrintString(0, 0, tmp, &font64x16, OLED_COLOR_NORMAL);
+			memset(tmp, 0, sizeof(tmp));
+
+			sprintf(tmp, "%02d", MyRTC_Time.Seconds);
+			OLED_PrintASCIIString(103, 28, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		}
+		else
+		{
+			sprintf(tmp, "%02d %02d", MyRTC_Time.Hours, MyRTC_Time.Minutes);
+			OLED_PrintASCIIString(3, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
+
+			memset(tmp, 0, sizeof(tmp));
+
+			sprintf(tmp, "%02d", MyRTC_Time.Seconds);
+			OLED_PrintASCIIString(103, 28, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		}
 
 		OLED_ShowFrame();
 

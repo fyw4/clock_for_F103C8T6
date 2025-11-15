@@ -315,15 +315,6 @@ void OLED_SetBlock(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t
       OLED_SetBits_Fine(x + i, y + (fullRow * 8), data[fullNum + i], partBit, color);
     }
   }
-  // 使用OLED_SetPixel实现
-  // for (uint8_t i = 0; i < w; i++) {
-  //   for (uint8_t j = 0; j < h; j++) {
-  //     for (uint8_t k = 0; k < 8; k++) {
-  //       if (j * 8 + k >= h) break; // 防止越界(不完整的字节
-  //       OLED_SetPixel(x + i, y + j * 8 + k, !((data[i + j * w] >> k) & 0x01));
-  //     }
-  //   }
-  // }
 }
 
 // ========================== 图形绘制函数 ==========================

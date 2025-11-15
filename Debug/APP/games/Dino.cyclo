@@ -1,0 +1,7 @@
+../APP/games/Dino.c:38:6:introMessage	1
+../APP/games/Dino.c:47:6:show_line	3
+../APP/games/Dino.c:71:6:move_dino	5
+../APP/games/Dino.c:87:6:move_tree	2
+../APP/games/Dino.c:98:6:display_score	2
+../APP/games/Dino.c:116:6:tree_collision_judge	2
+../APP/games/Dino.c:137:6:dino_play	28

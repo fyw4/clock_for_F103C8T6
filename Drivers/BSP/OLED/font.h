@@ -20,6 +20,8 @@ extern const ASCIIFont afont8x6;
 extern const ASCIIFont afont12x6;
 extern const ASCIIFont afont16x8;
 extern const ASCIIFont afont24x12;
+extern const ASCIIFont afont24x19;
+extern const ASCIIFont afont16x11;
 
 /**
  * @brief 字体结构体
@@ -37,7 +39,7 @@ typedef struct Font {
 extern const Font font16x16;
 extern const Font font12x12;
 extern const Font font8x6;
-extern const Font font64x16;
+
 
 /**
  * @brief 图片结构体

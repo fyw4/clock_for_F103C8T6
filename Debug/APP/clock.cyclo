@@ -1,0 +1,3 @@
+../APP/clock.c:18:5:check_key_press	3
+../APP/clock.c:32:6:my_RTC_settime	1
+../APP/clock.c:37:5:clock_UI	5

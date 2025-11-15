@@ -26,7 +26,7 @@ int rx3 = 95;  // 飞碟子弹3初始位置（横坐标）
 int ry3 = 0;   // 飞碟子弹3初始位置（纵坐标）
 int rx4 = 95;  // 飞碟子弹4初始位置（横坐标）
 int ry4 = 0;   // 飞碟子弹4初始位置（纵坐标）
-int score = 0; // 得分
+int star_war_score = 0; // 得分
 
 int flying_saucer_bullet_speed = 3; // 飞碟子弹移动速度
 int flying_saucer_move_step = 1;    // 飞碟移动步长
@@ -67,7 +67,7 @@ void game_init()
     ry3 = 0;
     rx4 = 95;
     ry4 = 0;
-    score = 0;
+    star_war_score = 0;
 
     flying_saucer_bullet_speed = 3;
     flying_saucer_move_step = 1;
@@ -276,8 +276,8 @@ void star_war_play()
             OLED_DrawCircle(flying_saucer_center_position_x, flying_saucer_center_position_y, flying_saucer_radius, OLED_COLOR_NORMAL);             // 飞碟小圈
             OLED_DrawCircle(flying_saucer_center_position_x + 2, flying_saucer_center_position_y + 3, flying_saucer_radius / 3, OLED_COLOR_NORMAL); // 飞碟大圈
 
-            OLED_PrintASCIIString(28, 0, "score:", &afont8x6, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", score);
+            OLED_PrintASCIIString(28, 0, "star_war_score:", &afont8x6, OLED_COLOR_NORMAL);
+            sprintf(tmp, "%d", star_war_score);
             OLED_PrintASCIIString(64, 0, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
             OLED_PrintASCIIString(28, 55, "life:", &afont8x6, OLED_COLOR_NORMAL);
@@ -320,7 +320,7 @@ void star_war_play()
                 {
                     metx = 6;                        // 飞船中心的枪口横坐标
                     mety = spaceship_position_y + 8; // 飞船中心的枪口纵坐标
-                    score += 1;
+                    star_war_score += 1;
                     bullet_exit = 0;
                 }
             }
@@ -386,7 +386,7 @@ void star_war_play()
             OLED_NewFrame();
 
             OLED_PrintString(37, 20, "得分:", &font12x12, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", score);
+            sprintf(tmp, "%d", star_war_score);
             OLED_PrintString(85, 20, tmp, &font12x12, OLED_COLOR_NORMAL);
 
             OLED_PrintString(37, 35, "等级:", &font12x12, OLED_COLOR_NORMAL);

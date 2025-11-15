@@ -15,7 +15,7 @@ int x2;     // 管道2横坐标（上口宽管道）
 int y2;     // 管道2纵坐标（下口宽管道）
 int bs;     // 小鸟跳跃高度
 int bird_y; // 小鸟纵坐标
-long score; // 得分
+long flappy_bird_score; // 得分
 
 int get_button_status()
 {
@@ -32,7 +32,7 @@ void draw()
 
     OLED_NewFrame();
 
-    sprintf(tmp, "%d", score);
+    sprintf(tmp, "%d", flappy_bird_score);
     OLED_PrintASCIIString(80, 0, tmp, &font8x6, OLED_COLOR_NORMAL); // 显示得分
 
     OLED_DrawRectangle(x1, 0, 10, y1, OLED_COLOR_NORMAL);         // 绘制管道1
@@ -63,7 +63,7 @@ void flappy_bird_play()
 
     bs = 32;
     bird_y = 10;
-    score = 0;
+    flappy_bird_score = 0;
 
     while (1)
     {
@@ -131,7 +131,7 @@ void flappy_bird_play()
 
             if (x1 == 16 || x2 == 16) // 小鸟通过管道
             {
-                score++;
+                flappy_bird_score++;
             }
 
             HAL_Delay(30);
@@ -142,8 +142,8 @@ void flappy_bird_play()
             OLED_NewFrame();
             OLED_DrawImage(0, 0, &game_over_Img, OLED_COLOR_NORMAL);
             OLED_DrawImage(8, 32, &image_Img, OLED_COLOR_NORMAL);
-            OLED_PrintString(72, 32, "Score", &font12x12, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", score);
+            OLED_PrintString(72, 32, "flappy_bird_score", &font12x12, OLED_COLOR_NORMAL);
+            sprintf(tmp, "%d", flappy_bird_score);
             OLED_PrintASCIIString(72, 48, tmp, &font8x6, OLED_COLOR_NORMAL);
 
             OLED_ShowFrame();
@@ -167,7 +167,7 @@ void flappy_bird_play()
 
                 bs = 32;
                 bird_y = 50;
-                score = 0;
+                flappy_bird_score = 0;
             }
 
             if (KEY_Back == GPIO_PIN_RESET)
