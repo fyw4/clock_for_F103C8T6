@@ -31,6 +31,8 @@ int check_key_press(void)
 
 void my_RTC_settime()
 {
+	SaveTimeToBackup(); // 在退出前保存时间
+
 	return;
 }
 
@@ -38,30 +40,26 @@ int clock_UI()
 {
 	unsigned char tmp[10] = {0};
 
-	SaveTimeToBackup();
-
 	while (1)
 	{
 		if (check_key_press())
 		{
+			my_RTC_settime();
 			return;
 		}
 
 		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
 		HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
 
-		memset(tmp, 0, sizeof(tmp));
-
 		OLED_NewFrame();
 
-		if (MyRTC_Time.Seconds % 2 == 0)
+		if (seconds % 2 == 0)
 		{
-
+			memset(tmp, 0, sizeof(tmp));
 			sprintf(tmp, "%02d:%02d", MyRTC_Time.Hours, MyRTC_Time.Minutes);
 			OLED_PrintASCIIString(3, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
 
 			memset(tmp, 0, sizeof(tmp));
-
 			sprintf(tmp, "%02d", MyRTC_Time.Seconds);
 			OLED_PrintASCIIString(103, 28, tmp, &afont16x11, OLED_COLOR_NORMAL);
 		}
@@ -82,6 +80,7 @@ int clock_UI()
 		{
 			if (check_key_press())
 			{
+				my_RTC_settime();
 				return;
 			}
 			HAL_Delay(100);

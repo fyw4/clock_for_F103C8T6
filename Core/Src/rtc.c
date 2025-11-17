@@ -21,7 +21,7 @@
 #include "rtc.h"
 
 /* USER CODE BEGIN 0 */
-#define BACKUP_REGISTER_MAGIC 0x55AA // 备份数据有效性标记
+#define BACKUP_REGISTER_MAGIC 0x55AA // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷效锟皆憋拷锟?
 #define BACKUP_REGISTER_YEAR RTC_BKP_DR1
 #define BACKUP_REGISTER_MONTH RTC_BKP_DR2
 #define BACKUP_REGISTER_DATE RTC_BKP_DR3
@@ -52,13 +52,13 @@ void MX_RTC_Init(void)
   /* USER CODE BEGIN Check_RTC_BKUP */
   RTC_DateTypeDef sDate = {0};
 
-  __HAL_RCC_PWR_CLK_ENABLE(); // 1. 先开启电源时钟
-  HAL_PWR_EnableBkUpAccess(); // 2. 然后解锁后备区域访问
-  __HAL_RCC_BKP_CLK_ENABLE(); // 3. 最后开启后备区域时钟
+  __HAL_RCC_PWR_CLK_ENABLE(); // 1. 锟饺匡拷锟斤拷锟斤拷源时锟斤拷
+  HAL_PWR_EnableBkUpAccess(); // 2. 然锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
+  __HAL_RCC_BKP_CLK_ENABLE(); // 3. 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟绞憋拷锟?
 
   if (HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_FLAG) == BACKUP_REGISTER_MAGIC)
   {
-    // 从备份寄存器读取时间和日期
+    // 锟接憋拷锟捷寄达拷锟斤拷锟斤拷取时锟斤拷锟斤拷锟斤拷锟?
     sTime.Seconds = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_SEC);
     sTime.Minutes = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_MIN);
     sTime.Hours = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_HOUR);
@@ -67,7 +67,7 @@ void MX_RTC_Init(void)
     sDate.Month = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_MONTH);
     sDate.Year = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_YEAR);
 
-    // 锁定后备区域
+    // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷
     HAL_PWR_DisableBkUpAccess();
 
     HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD);
@@ -114,7 +114,7 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *rtcHandle)
     __HAL_RCC_RTC_ENABLE();
 
     /* RTC interrupt Init */
-    HAL_NVIC_SetPriority(RTC_IRQn, 2, 0);
+    HAL_NVIC_SetPriority(RTC_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(RTC_IRQn);
     /* USER CODE BEGIN RTC_MspInit 1 */
 
@@ -151,27 +151,34 @@ void SaveTimeToBackup(void)
   HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BCD);
   HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BCD);
 
-  __HAL_RCC_PWR_CLK_ENABLE(); // 1. 确保PWR时钟已开启
+  // 进行更严格的时间有效性检查
+  if (sTime.Hours <= 0x23 && sTime.Minutes <= 0x59 && sTime.Seconds <= 0x59 &&
+      sDate.Month <= 0x12 && sDate.Date <= 0x31 && sDate.Year <= 0x99 &&
+      !(sTime.Hours == 0 && sTime.Minutes == 0 && sTime.Seconds == 0)) // 确保时间不为全0
+  {
+    HAL_PWR_DisableBkUpAccess();
 
-  __HAL_RCC_BKP_CLK_ENABLE(); // 2. 确保BKP时钟已开启
+    __HAL_RCC_PWR_CLK_ENABLE();
+    HAL_PWR_EnableBkUpAccess();
+    __HAL_RCC_BKP_CLK_ENABLE();
 
-  HAL_PWR_EnableBkUpAccess(); // 3. 解锁后备区域
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, 0); // 先写入0，确保后续数据写入完成后再写入魔术字
 
-  // 获取当前时间和日期
+    // 写入时间和日期数据
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_SEC, sTime.Seconds);
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MIN, sTime.Minutes);
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_HOUR, sTime.Hours);
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_DATE, sDate.Date);
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MONTH, sDate.Month);
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_YEAR, sDate.Year);
 
-  // 保存时间和日期到备份寄存器
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_SEC, sTime.Seconds);
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MIN, sTime.Minutes);
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_HOUR, sTime.Hours);
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_DATE, sDate.Date);
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MONTH, sDate.Month);
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_YEAR, sDate.Year);
+    // 最后写入魔术字，表示更新完成且数据有效
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, BACKUP_REGISTER_MAGIC);
 
-  // 写入魔术字，表示备份数据有效
-  HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, BACKUP_REGISTER_MAGIC);
-
-  // 锁定后备区域
-  HAL_PWR_DisableBkUpAccess();
+    // 禁用备份访问
+    HAL_PWR_DisableBkUpAccess();
+    __HAL_RCC_BKP_CLK_DISABLE();
+  }
 }
 /* USER CODE END 1 */
 

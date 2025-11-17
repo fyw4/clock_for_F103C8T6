@@ -113,7 +113,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     menu2 = menu1();
-    if (menu2 == 1) // 进入主菜�?
+    if (menu2 == 1) // 进入主菜�?
     {
       clock_UI();
     }
