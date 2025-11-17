@@ -37,23 +37,26 @@ void my_RTC_settime()
 int clock_UI()
 {
 	unsigned char tmp[10] = {0};
+
+	SaveTimeToBackup();
+
 	while (1)
 	{
 		if (check_key_press())
 		{
-			return; // �������º���������
+			return;
 		}
 
 		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
 		HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
 
 		memset(tmp, 0, sizeof(tmp));
-		
+
 		OLED_NewFrame();
 
 		if (MyRTC_Time.Seconds % 2 == 0)
 		{
-			
+
 			sprintf(tmp, "%02d:%02d", MyRTC_Time.Hours, MyRTC_Time.Minutes);
 			OLED_PrintASCIIString(3, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
 

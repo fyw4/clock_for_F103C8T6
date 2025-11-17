@@ -1,1 +1,1 @@
-../Drivers/BSP/KEY/key.c:11:9:Key_GetNum	16	static
+key.c:11:9:Key_GetNum	16	static
