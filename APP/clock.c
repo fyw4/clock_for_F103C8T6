@@ -17,7 +17,7 @@ RTC_DateTypeDef MyRTC_Date; // ï¿½ï¿½ï¿½ï¿½
 
 int check_key_press(void)
 {
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿?
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½?
 	if (KEY_Back == GPIO_PIN_RESET)
 	{
 		HAL_Delay(10); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
@@ -31,7 +31,7 @@ int check_key_press(void)
 
 void my_RTC_settime()
 {
-	SaveTimeToBackup(); // ÔÚÍË³öÇ°±£´æÊ±¼ä
+	SaveTimeToBackup(); // ï¿½ï¿½ï¿½Ë³ï¿½Ç°ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 
 	return;
 }
@@ -45,7 +45,7 @@ int clock_UI()
 		if (check_key_press())
 		{
 			my_RTC_settime();
-			return;
+			return 0;
 		}
 
 		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
@@ -53,7 +53,7 @@ int clock_UI()
 
 		OLED_NewFrame();
 
-		if (seconds % 2 == 0)
+		if (MyRTC_Time.Seconds % 2 == 0)
 		{
 			memset(tmp, 0, sizeof(tmp));
 			sprintf(tmp, "%02d:%02d", MyRTC_Time.Hours, MyRTC_Time.Minutes);
@@ -81,7 +81,7 @@ int clock_UI()
 			if (check_key_press())
 			{
 				my_RTC_settime();
-				return;
+				return 0;
 			}
 			HAL_Delay(100);
 		}
