@@ -1,4 +1,0 @@
-../Core/Src/rtc.c:37:6:MX_RTC_Init	5
-../Core/Src/rtc.c:102:6:HAL_RTC_MspInit	2
-../Core/Src/rtc.c:125:6:HAL_RTC_MspDeInit	2
-../Core/Src/rtc.c:146:6:SaveTimeToBackup	10

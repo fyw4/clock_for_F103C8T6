@@ -1,4 +1,0 @@
-../APP/games/start_war.c:54:6:game_init	1
-../APP/games/start_war.c:91:5:get_key_status	4
-../APP/games/start_war.c:102:6:star_draw	1
-../APP/games/start_war.c:124:6:star_war_play	66

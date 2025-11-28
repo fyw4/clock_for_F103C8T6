@@ -212,10 +212,6 @@ void OLED_SetByte_Fine(uint8_t page, uint8_t column, uint8_t data, uint8_t start
   OLED_GRAM[page][column] &= temp;
   temp = data & ~(0xff << (end + 1)) & ~(0xff >> (8 - start));
   OLED_GRAM[page][column] |= temp;
-  // 使用OLED_SetPixel实现
-  // for (uint8_t i = start; i <= end; i++) {
-  //   OLED_SetPixel(column, page * 8 + i, !((data >> i) & 0x01));
-  // }
 }
 
 /**
@@ -527,6 +523,20 @@ void OLED_PrintASCIIChar(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, O
 }
 
 /**
+ * @brief 绘制一个ASCII字符
+ * @param x 起始点横坐标
+ * @param y 起始点纵坐标
+ * @param ch 字符
+ * @param font 字体
+ * @param offset 偏移量
+ * @param color 颜色
+ */
+void OLED_PrintASCIIChar_offset(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
+{
+  OLED_SetBlock(x, y + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h - offset, color);
+}
+
+/**
  * @brief 绘制一个ASCII字符串
  * @param x 起始点横坐标
  * @param y 起始点纵坐标
@@ -540,6 +550,26 @@ void OLED_PrintASCIIString(uint8_t x, uint8_t y, char *str, const ASCIIFont *fon
   while (*str)
   {
     OLED_PrintASCIIChar(x0, y, *str, font, color);
+    x0 += font->w;
+    str++;
+  }
+}
+
+/**
+ * @brief 绘制一个ASCII字符串
+ * @param x 起始点横坐标
+ * @param y 起始点纵坐标
+ * @param str 字符串
+ * @param font 字体
+ * @param offset 偏移量
+ * @param color 颜色
+ */
+void OLED_PrintASCIIString_offset(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
+{
+  uint8_t x0 = x;
+  while (*str)
+  {
+    OLED_PrintASCIIChar_offset(x0, y, *str, font, offset, color);
     x0 += font->w;
     str++;
   }

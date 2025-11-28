@@ -1,3 +1,3 @@
-../APP/games/flappy_bird.c:20:5:get_button_status	8	static
-../APP/games/flappy_bird.c:29:6:draw	32	static
-../APP/games/flappy_bird.c:55:6:flappy_bird_play	32	static
+flappy_bird.c:20:5:get_button_status	8	static
+flappy_bird.c:29:6:draw	32	static
+flappy_bird.c:55:6:flappy_bird_play	32	static
