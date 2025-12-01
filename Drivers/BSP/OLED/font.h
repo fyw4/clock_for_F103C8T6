@@ -40,7 +40,6 @@ extern const Font font16x16;
 extern const Font font12x12;
 extern const Font font8x6;
 
-
 /**
  * @brief 图片结构体
  * @note  图片数据可以使用波特律动LED取模助手生成(https://led.baud-dance.com)

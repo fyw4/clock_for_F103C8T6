@@ -11,6 +11,11 @@
 #include "star_war.h"
 #include "key.h"
 
+const unsigned char spaceship[32] = {
+0x40, 0x40, 0xC2, 0x6A, 0xFF, 0xE5, 0x0F, 0x7A, 0xEA, 0xF2, 0x62, 0x20, 0xE0, 0x20, 0x40, 0x80, 0x02, 0x02, 0x43, 0x56, 0xFF, 0xA7, 0xF0, 0x5E, 0x57, 0x4F, 0x46, 0x04, 0x07, 0x04, 0x02, 0x01
+};
+const Image spaceship_Img = {16, 16, spaceship};
+
 int metx = 0;                             // 子弹初始位置（横坐标）
 int mety = 0;                             // 子弹初始位置（纵坐标）
 int bullet_exit = 0;                      // 是否存在子弹
@@ -285,7 +290,7 @@ void star_war_play()
             OLED_PrintASCIIString(64, 55, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
             OLED_PrintASCIIString(116, 45, "tm", &afont8x6, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", game_running_time / 1000);
+            sprintf(tmp, "%ld", game_running_time / 1000);
             OLED_PrintASCIIString(116, 55, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
             OLED_ShowFrame();
@@ -394,7 +399,7 @@ void star_war_play()
             OLED_PrintString(85, 35, tmp, &font12x12, OLED_COLOR_NORMAL);
 
             OLED_PrintString(37, 50, "时间(s):", &font12x12, OLED_COLOR_NORMAL);
-            sprintf(tmp, "%d", game_running_time / 1000);
+            sprintf(tmp, "%ld", game_running_time / 1000);
             OLED_PrintString(85, 50, tmp, &font12x12, OLED_COLOR_NORMAL);
 
             OLED_ShowFrame();

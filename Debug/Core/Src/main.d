@@ -27,7 +27,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/rtc.h \
  ../Core/Inc/gpio.h ../Drivers/BSP/OLED/oled.h ../Drivers/BSP/OLED/font.h \
  ../Drivers/BSP/LED/led.h ../Drivers/BSP/KEY/key.h ../APP/menu.h \
- ../APP/info.h
+ ../APP/info.h ../APP/clock.h
 
 ../Core/Inc/main.h:
 
@@ -100,3 +100,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../APP/menu.h:
 
 ../APP/info.h:
+
+../APP/clock.h:

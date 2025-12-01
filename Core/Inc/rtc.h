@@ -34,7 +34,7 @@ extern "C" {
 extern RTC_HandleTypeDef hrtc;
 
 /* USER CODE BEGIN Private defines */
-
+void SaveTimeToBackup(void);
 /* USER CODE END Private defines */
 
 void MX_RTC_Init(void);

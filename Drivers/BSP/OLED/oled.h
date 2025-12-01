@@ -35,8 +35,8 @@ void OLED_DrawImage(uint8_t x, uint8_t y, const Image *img, OLED_ColorMode color
 void OLED_PrintASCIIChar(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, OLED_ColorMode color);
 void OLED_PrintASCIIString(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, OLED_ColorMode color);
 void OLED_PrintString(uint8_t x, uint8_t y, char *str, const Font *font, OLED_ColorMode color);
-
-void OLED_PrintASCIIChar_offset(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color);
+void OLED_PrintASCIIString_offset_mid_to_down(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color);
+void OLED_PrintASCIIString_offset_mid_to_down(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color);
 
 void OLED_DrawPoint(int16_t X, int16_t Y);
 #endif /* BSP_OLED_OLED_H_ */

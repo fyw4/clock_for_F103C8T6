@@ -765,7 +765,7 @@ const uint8_t zh12x12[][28] = {
 };
 const Font font12x12 = {12, 12, (const uint8_t *)zh12x12, sizeof(zh12x12) / sizeof(zh12x12[0]), &afont12x6};
 
-const Font font8x6 = {8, 6, (const uint8_t *)ascii_8x6, sizeof(ascii_8x6) / sizeof(ascii_8x6[0]), &ascii_8x6};
+const Font font8x6 = {8, 6, (const uint8_t *)ascii_8x6, sizeof(ascii_8x6) / sizeof(ascii_8x6[0]), &afont8x6};
 
 const uint8_t Arrow_Data[] = {
 0x00, 0x78, 0x48, 0x48, 0x48, 0xce, 0x84, 0x48, 0x30, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe, 0xff, 0xfe, 0xfe, 0xfe, 0xfe,

@@ -8,6 +8,9 @@
 #include "menu.h"
 #include "oled.h"
 #include "key.h"
+#include "flappy_bird.h"
+#include "star_war.h"
+#include "Dino.h"
 
 uint8_t KeyNum; // 用于存储键码值
 

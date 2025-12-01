@@ -19,9 +19,11 @@ oled.c:434:6:OLED_DrawCircle	32	static
 oled.c:470:6:OLED_DrawFilledCircle	40	static
 oled.c:505:6:OLED_DrawImage	32	static
 oled.c:520:6:OLED_PrintASCIIChar	32	static
-oled.c:534:6:OLED_PrintASCIIChar_offset	32	static
-oled.c:547:6:OLED_PrintASCIIString	40	static
-oled.c:567:6:OLED_PrintASCIIString_offset	40	static
-oled.c:581:9:_OLED_GetUTF8Len	16	static
-oled.c:602:6:OLED_PrintString	56	static
-oled.c:651:6:OLED_DrawPoint	16	static
+oled.c:534:6:OLED_PrintASCIIChar_offset_mid_to_down	32	static
+oled.c:548:6:OLED_PrintASCIIChar_offset_up_to_mid	32	static
+oled.c:561:6:OLED_PrintASCIIString	40	static
+oled.c:581:6:OLED_PrintASCIIString_offset_mid_to_down	40	static
+oled.c:601:6:OLED_PrintASCIIString_offset_up_to_mid	40	static
+oled.c:615:9:_OLED_GetUTF8Len	16	static
+oled.c:636:6:OLED_PrintString	56	static
+oled.c:685:6:OLED_DrawPoint	16	static

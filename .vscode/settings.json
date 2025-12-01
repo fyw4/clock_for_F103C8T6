@@ -16,6 +16,13 @@
         "cstdint": "c",
         "time.h": "c",
         "rtc.h": "c",
-        "ole.h": "c"
+        "ole.h": "c",
+        "clock.h": "c",
+        "star_war.h": "c",
+        "dino.h": "c",
+        "string.h": "c",
+        "key.h": "c",
+        "stdio.h": "c",
+        "stdint.h": "c"
     }
 }

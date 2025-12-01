@@ -5,6 +5,8 @@
  *      Author: WangQingChuan
  */
 #include <time.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "clock.h"
 #include "key.h"
@@ -38,29 +40,21 @@ void my_RTC_settime()
 
 int clock_UI()
 {
-	unsigned char tmp[10] = {0};
-	uint8_t flag = 0;
-
-	static uint8_t mins = 0;
+	char tmp[10] = {0};
 
 	static uint8_t hour1 = 0;
-	static uint8_t hour1_moving = 0;
 	static uint8_t hour1_offset = 0;
 
 	static uint8_t hour2 = 0;
-	static uint8_t hour2_moving = 0;
 	static uint8_t hour2_offset = 0;
 
 	static uint8_t min1 = 0;
-	static uint8_t min1_moving = 0;
 	static uint8_t min1_offset = 0;
 
 	static uint8_t min2 = 0;
-	static uint8_t min2_moving = 0;
 	static uint8_t min2_offset = 0;
 
 	static uint8_t secs1 = 0;
-	static uint8_t sec1_moving = 0;
 	static uint8_t sec1_offset = 0;
 
 	static uint8_t secs2 = 0;
@@ -82,35 +76,30 @@ int clock_UI()
 #if slide
 		if (hour1 != MyRTC_Time.Hours / 10)
 		{
-			hour1_moving = 1;
 			hour1_offset = 0;
 			hour1 = MyRTC_Time.Hours / 10;
 		}
 
 		if (hour2 != MyRTC_Time.Hours % 10)
 		{
-			hour2_moving = 1;
 			hour2_offset = 0;
 			hour2 = MyRTC_Time.Hours % 10;
 		}
 
 		if (min1 != MyRTC_Time.Minutes / 10)
 		{
-			min1_moving = 1;
 			min1_offset = 0;
 			min1 = MyRTC_Time.Minutes / 10;
 		}
 
 		if (min2 != MyRTC_Time.Minutes % 10)
 		{
-			min2_moving = 1;
 			min2_offset = 0;
 			min2 = MyRTC_Time.Minutes % 10;
 		}
 
 		if (secs1 != MyRTC_Time.Seconds / 10)
 		{
-			sec1_moving = 1;
 			sec1_offset = 0;
 			secs1 = MyRTC_Time.Seconds / 10;
 		}
@@ -127,20 +116,19 @@ int clock_UI()
 			hour1_offset += 1;
 			if (hour1_offset > 15)
 			{
-				hour1_moving = 0;
 			}
 			else
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Hours / 10);
-				OLED_PrintASCIIString_offset(3, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_mid_to_down(5, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
 		{
 			memset(tmp, 0, sizeof(tmp));
 			sprintf(tmp, "%d", MyRTC_Time.Hours / 10);
-			OLED_PrintASCIIString(3, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
+			OLED_PrintASCIIString(5, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
 		}
 
 		if (MyRTC_Time.Minutes / 10 == 5 && MyRTC_Time.Minutes % 10 == 9 && MyRTC_Time.Seconds / 10 == 5 && MyRTC_Time.Seconds % 10 == 9)
@@ -148,30 +136,29 @@ int clock_UI()
 			hour2_offset += 1;
 			if (hour2_offset > 15)
 			{
-				hour2_moving = 0;
 			}
 			else
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Hours % 10);
-				OLED_PrintASCIIString_offset(30, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_mid_to_down(25, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
 		{
 			memset(tmp, 0, sizeof(tmp));
 			sprintf(tmp, "%d", MyRTC_Time.Hours % 10);
-			OLED_PrintASCIIString(30, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
+			OLED_PrintASCIIString(25, 20, tmp, &afont24x19, OLED_COLOR_NORMAL);
 		}
 
 		memset(tmp, 0, sizeof(tmp));
 		if (MyRTC_Time.Seconds % 2 == 0)
 		{
-			OLED_PrintASCIIString(50, 20, ":", &afont24x19, OLED_COLOR_NORMAL);
+			OLED_PrintASCIIString(45, 20, ":", &afont24x19, OLED_COLOR_NORMAL);
 		}
 		else
 		{
-			OLED_PrintASCIIString(50, 20, " ", &afont24x19, OLED_COLOR_NORMAL);
+			OLED_PrintASCIIString(45, 20, " ", &afont24x19, OLED_COLOR_NORMAL);
 		}
 
 		if (MyRTC_Time.Minutes % 10 == 9 && MyRTC_Time.Seconds / 10 == 5 && MyRTC_Time.Seconds % 10 == 9)
@@ -179,13 +166,12 @@ int clock_UI()
 			min1_offset += 1;
 			if (min1_offset > 15)
 			{
-				min1_moving = 0;
 			}
 			else
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Minutes / 10);
-				OLED_PrintASCIIString_offset(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_mid_to_down(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -200,13 +186,12 @@ int clock_UI()
 			min2_offset += 1;
 			if (min2_offset > 15)
 			{
-				min2_moving = 0;
 			}
 			else
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Minutes % 10);
-				OLED_PrintASCIIString_offset(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_mid_to_down(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -221,13 +206,12 @@ int clock_UI()
 			sec1_offset += 1;
 			if (sec1_offset > 15)
 			{
-				sec1_moving = 0;
 			}
 			else
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds / 10);
-				OLED_PrintASCIIString_offset(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_mid_to_down(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -248,7 +232,7 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds % 10);
-				OLED_PrintASCIIString_offset(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_mid_to_down(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 

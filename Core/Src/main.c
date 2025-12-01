@@ -36,6 +36,7 @@
 #include "key.h"
 #include "menu.h"
 #include "info.h"
+#include "clock.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
