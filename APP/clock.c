@@ -232,10 +232,12 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds % 10);
-				OLED_PrintASCIIString_offset_mid_to_down(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
+				//OLED_PrintASCIIString_offset_mid_to_down(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_up_to_mid(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 
+		OLED_DrawFilledRectangle(116, 12, 16, 15, OLED_COLOR_REVERSED); //挡住秒数
 #else
 		if (MyRTC_Time.Seconds % 2 == 0)
 		{

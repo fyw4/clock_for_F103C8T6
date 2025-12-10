@@ -290,11 +290,44 @@ void OLED_SetBits(uint8_t x, uint8_t y, uint8_t data, OLED_ColorMode color)
  */
 void OLED_SetBlock(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t h, OLED_ColorMode color)
 {
+  uint8_t fullRow = h / 8;        // 完整的行数（每行长8个bit）
+  uint8_t partBit = h % 8;        // 不完整的字节中的有效位数
+  for (uint8_t i = 0; i < w; i++) // 遍历每一列
+  {
+    for (uint8_t j = 0; j < fullRow; j++) // 遍历每一行
+    {
+      OLED_SetBits(x + i, y + j * 8, data[i + j * w], color);
+    }
+  }
+  if (partBit)
+  {
+    uint16_t fullNum = w * fullRow; // 完整的字节数
+    for (uint8_t i = 0; i < w; i++)
+    {
+      OLED_SetBits_Fine(x + i, y + (fullRow * 8), data[fullNum + i], partBit, color);
+    }
+  }
+}
+
+/**
+ * @brief 设置一块显存区域
+ * @param x 起始横坐标
+ * @param y 起始纵坐标
+ * @param data 数据的起始地址
+ * @param w 宽度
+ * @param h 高度
+ * @param color 颜色
+ * @note 此函数将显存中从(x,y)开始的w*h个像素设置为data中的数据
+ * @note data的数据应该采用列行式排列
+ */
+void OLED_SetBlock_up_to_mid(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t h, uint8_t offset, OLED_ColorMode color)
+{
   uint8_t fullRow = h / 8; // 完整的行数（每行长8个bit）
   uint8_t partBit = h % 8; // 不完整的字节中的有效位数
-  for (uint8_t i = 0; i < w; i++)// 遍历每一列
+
+  for (uint8_t i = 0; i < w; i++) // 遍历每一列
   {
-    for (uint8_t j = 0; j < fullRow; j++)// 遍历每一行
+    for (uint8_t j = 0; j < fullRow; j++) // 遍历每一行
     {
       OLED_SetBits(x + i, y + j * 8, data[i + j * w], color);
     }
@@ -529,7 +562,7 @@ void OLED_PrintASCIIChar(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, O
  */
 void OLED_PrintASCIIChar_offset_mid_to_down(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
 {
-  //OLED_SetBlock(x, y + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h - offset, color);
+  OLED_SetBlock(x, y + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h - offset, color);
 }
 
 /**
@@ -543,7 +576,8 @@ void OLED_PrintASCIIChar_offset_mid_to_down(uint8_t x, uint8_t y, char ch, const
  */
 void OLED_PrintASCIIChar_offset_up_to_mid(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
 {
-  OLED_SetBlock(x, y + font->h + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h - offset, color);
+
+  OLED_SetBlock_up_to_mid(x, y - 15 + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, offset, color);
 }
 
 /**
