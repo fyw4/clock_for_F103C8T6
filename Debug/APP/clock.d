@@ -26,7 +26,7 @@ APP/clock.o: ../APP/clock.c ../APP/clock.h ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
  ../Drivers/BSP/KEY/key.h ../Core/Inc/rtc.h ../Core/Inc/main.h \
  ../Drivers/BSP/OLED/font.h ../Drivers/BSP/OLED/oled.h \
- ../Drivers/BSP/OLED/font.h
+ ../Drivers/BSP/OLED/font.h ../APP/share_func.h
 
 ../APP/clock.h:
 
@@ -93,3 +93,5 @@ APP/clock.o: ../APP/clock.c ../APP/clock.h ../Core/Inc/main.h \
 ../Drivers/BSP/OLED/oled.h:
 
 ../Drivers/BSP/OLED/font.h:
+
+../APP/share_func.h:

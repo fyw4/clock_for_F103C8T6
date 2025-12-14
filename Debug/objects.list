@@ -1,6 +1,7 @@
 "APP/clock.o"
 "APP/info.o"
 "APP/menu.o"
+"APP/share_func.o"
 "APP/games/Dino.o"
 "APP/games/flappy_bird.o"
 "APP/games/start_war.o"

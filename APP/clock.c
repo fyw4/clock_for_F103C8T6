@@ -13,6 +13,7 @@
 #include "rtc.h"
 #include "font.h"
 #include "oled.h"
+#include "share_func.h"
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
@@ -59,8 +60,8 @@ int clock_UI()
 
 	static uint8_t secs2 = 0;
 	static uint8_t sec2_moving = 0;
-	static uint8_t sec2_offset = 0;
-
+	static uint8_t sec2_offset_up_to_down = 0;
+	static uint8_t sec2_offset_up_to_down_1 = 0;
 	while (1)
 	{
 		if (check_key_press())
@@ -107,14 +108,15 @@ int clock_UI()
 		if (secs2 != MyRTC_Time.Seconds % 10)
 		{
 			sec2_moving = 1;
-			sec2_offset = 0;
+			sec2_offset_up_to_down = 0;
+			sec2_offset_up_to_down_1 = 0;
 			secs2 = MyRTC_Time.Seconds % 10;
 		}
 
 		if (MyRTC_Time.Hours % 10 == 9 && MyRTC_Time.Minutes / 10 == 5 && MyRTC_Time.Minutes % 10 == 9 && MyRTC_Time.Seconds / 10 == 5 && MyRTC_Time.Seconds % 10 == 9)
 		{
 			hour1_offset += 1;
-			if (hour1_offset > 15)
+			if (hour1_offset > TIME_OFFSET)
 			{
 			}
 			else
@@ -134,7 +136,7 @@ int clock_UI()
 		if (MyRTC_Time.Minutes / 10 == 5 && MyRTC_Time.Minutes % 10 == 9 && MyRTC_Time.Seconds / 10 == 5 && MyRTC_Time.Seconds % 10 == 9)
 		{
 			hour2_offset += 1;
-			if (hour2_offset > 15)
+			if (hour2_offset > TIME_OFFSET)
 			{
 			}
 			else
@@ -164,7 +166,7 @@ int clock_UI()
 		if (MyRTC_Time.Minutes % 10 == 9 && MyRTC_Time.Seconds / 10 == 5 && MyRTC_Time.Seconds % 10 == 9)
 		{
 			min1_offset += 1;
-			if (min1_offset > 15)
+			if (min1_offset > TIME_OFFSET)
 			{
 			}
 			else
@@ -184,7 +186,7 @@ int clock_UI()
 		if (MyRTC_Time.Seconds / 10 == 5 && MyRTC_Time.Seconds % 10 == 9)
 		{
 			min2_offset += 1;
-			if (min2_offset > 15)
+			if (min2_offset > TIME_OFFSET)
 			{
 			}
 			else
@@ -204,7 +206,7 @@ int clock_UI()
 		if (MyRTC_Time.Seconds % 10 == 9)
 		{
 			sec1_offset += 1;
-			if (sec1_offset > 15)
+			if (sec1_offset > TIME_OFFSET)
 			{
 			}
 			else
@@ -223,21 +225,33 @@ int clock_UI()
 
 		if (sec2_moving)
 		{
-			sec2_offset += 1;
-			if (sec2_offset > 15)
+			sec2_offset_up_to_down += 1;
+			if (sec2_offset_up_to_down > TIME_OFFSET)
 			{
-				sec2_moving = 0;
+				// sec2_moving = 0;
+				// 从中到下移动标志位
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", MyRTC_Time.Seconds % 10); // 确保秒数在0-9之间
+				OLED_PrintASCIIString(116, 28, tmp, &afont16x11, OLED_COLOR_NORMAL);
 			}
 			else
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds % 10);
-				//OLED_PrintASCIIString_offset_mid_to_down(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
-				OLED_PrintASCIIString_offset_up_to_mid(116, 28, tmp, &afont16x11, sec2_offset, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString_offset_up_to_down(116, 28, tmp, &afont16x11, sec2_offset_up_to_down, OLED_COLOR_NORMAL);
 			}
+
+			// if (sec2_offset_up_to_down >= TIME_OFFSET)
+			// {
+			// 	sec2_offset_up_to_down_1 += 1;
+			// 	memset(tmp, 0, sizeof(tmp));
+			// 	sprintf(tmp, "%d", (MyRTC_Time.Seconds % 10 + 1) % 10); //确保秒数在0-9之间
+			// 	OLED_PrintASCIIString_offset_up_to_down(116, 28 - ADJUST_VAL, tmp, &afont16x11, sec2_offset_up_to_down_1, OLED_COLOR_NORMAL);
+			// }
 		}
 
-		OLED_DrawFilledRectangle(116, 12, 16, 15, OLED_COLOR_REVERSED); //挡住秒数
+		OLED_DrawFilledRectangle(116, 12 - ADJUST_VAL, 16, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住秒数上半部
+		OLED_DrawFilledRectangle(116, 44, 16, TIME_OFFSET, OLED_COLOR_REVERSED);			  // 挡住秒数下半部
 #else
 		if (MyRTC_Time.Seconds % 2 == 0)
 		{

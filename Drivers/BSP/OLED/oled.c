@@ -4,11 +4,12 @@
  *  Created on: Oct 4, 2025
  *      Author: WangQingChuan
  */
+#include <math.h>
+#include <stdlib.h>
 
 #include "oled.h"
 #include "i2c.h"
-#include <math.h>
-#include <stdlib.h>
+#include "share_func.h"
 
 // OLED器件地址
 // #define OLED_ADDRESS 0x7A
@@ -320,7 +321,7 @@ void OLED_SetBlock(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t
  * @note 此函数将显存中从(x,y)开始的w*h个像素设置为data中的数据
  * @note data的数据应该采用列行式排列
  */
-void OLED_SetBlock_up_to_mid(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t h, uint8_t offset, OLED_ColorMode color)
+void OLED_SetBlock_up_to_down(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t h, uint8_t offset, OLED_ColorMode color)
 {
   uint8_t fullRow = h / 8; // 完整的行数（每行长8个bit）
   uint8_t partBit = h % 8; // 不完整的字节中的有效位数
@@ -574,10 +575,10 @@ void OLED_PrintASCIIChar_offset_mid_to_down(uint8_t x, uint8_t y, char ch, const
  * @param offset 偏移量
  * @param color 颜色
  */
-void OLED_PrintASCIIChar_offset_up_to_mid(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
+void OLED_PrintASCIIChar_offset_up_to_down(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
 {
-
-  OLED_SetBlock_up_to_mid(x, y - 15 + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, offset, color);
+  //OLED_SetBlock_up_to_down(x, y - TIME_OFFSET + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, offset, color);
+  OLED_SetBlock(x, y - TIME_OFFSET + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, color);
 }
 
 /**
@@ -628,12 +629,12 @@ void OLED_PrintASCIIString_offset_mid_to_down(uint8_t x, uint8_t y, char *str, c
  * @param offset 偏移量
  * @param color 颜色
  */
-void OLED_PrintASCIIString_offset_up_to_mid(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
+void OLED_PrintASCIIString_offset_up_to_down(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
 {
   uint8_t x0 = x;
   while (*str)
   {
-    OLED_PrintASCIIChar_offset_up_to_mid(x0, y, *str, font, offset, color);
+    OLED_PrintASCIIChar_offset_up_to_down(x0, y, *str, font, offset, color);
     x0 += font->w;
     str++;
   }
