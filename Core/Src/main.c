@@ -113,8 +113,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    clock_UI(); // 默认界面：显示时间
+
     menu2 = menu1();
-    if (menu2 == 1) // 进入主菜�?
+    if (menu2 == 1) // 进入主菜单
     {
       clock_UI();
     }

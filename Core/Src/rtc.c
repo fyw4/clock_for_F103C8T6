@@ -1,27 +1,27 @@
 /**
- ******************************************************************************
- * @file    rtc.c
- * @brief   This file provides code for the configuration
- *          of the RTC instances.
- ******************************************************************************
- * @attention
- *
- * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
- * All rights reserved.</center></h2>
- *
- * This software component is licensed by ST under BSD 3-Clause license,
- * the "License"; You may not use this file except in compliance with the
- * License. You may obtain a copy of the License at:
- *                        opensource.org/licenses/BSD-3-Clause
- *
- ******************************************************************************
- */
+  ******************************************************************************
+  * @file    rtc.c
+  * @brief   This file provides code for the configuration
+  *          of the RTC instances.
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
+  *
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "rtc.h"
 
 /* USER CODE BEGIN 0 */
-#define BACKUP_REGISTER_MAGIC 0x55AA // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ô±ï¿½ï¿?
+#define BACKUP_REGISTER_MAGIC 0x55AA // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ô±ï¿½ï¿½?
 #define BACKUP_REGISTER_YEAR RTC_BKP_DR1
 #define BACKUP_REGISTER_MONTH RTC_BKP_DR2
 #define BACKUP_REGISTER_DATE RTC_BKP_DR3
@@ -40,7 +40,7 @@ void MX_RTC_Init(void)
   RTC_DateTypeDef DateToUpdate = {0};
 
   /** Initialize RTC Only
-   */
+  */
   hrtc.Instance = RTC;
   hrtc.Init.AsynchPrediv = RTC_AUTO_1_SECOND;
   hrtc.Init.OutPut = RTC_OUTPUTSOURCE_NONE;
@@ -54,11 +54,11 @@ void MX_RTC_Init(void)
 
   __HAL_RCC_PWR_CLK_ENABLE(); // 1. ï¿½È¿ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ê±ï¿½ï¿½
   HAL_PWR_EnableBkUpAccess(); // 2. È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-  __HAL_RCC_BKP_CLK_ENABLE(); // 3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿?
+  __HAL_RCC_BKP_CLK_ENABLE(); // 3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½?
 
   if (HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_FLAG) == BACKUP_REGISTER_MAGIC)
   {
-    // ï¿½Ó±ï¿½ï¿½Ý¼Ä´ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
+    // ï¿½Ó±ï¿½ï¿½Ý¼Ä´ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
     sTime.Seconds = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_SEC);
     sTime.Minutes = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_MIN);
     sTime.Hours = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_HOUR);
@@ -79,10 +79,10 @@ void MX_RTC_Init(void)
   /* USER CODE END Check_RTC_BKUP */
 
   /** Initialize RTC and set the Time and Date
-   */
-  sTime.Hours = 0x10;
-  sTime.Minutes = 0x10;
-  sTime.Seconds = 0x10;
+  */
+  sTime.Hours = 0x19;
+  sTime.Minutes = 0x59;
+  sTime.Seconds = 0x50;
 
   if (HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BCD) != HAL_OK)
   {
@@ -97,16 +97,17 @@ void MX_RTC_Init(void)
   {
     Error_Handler();
   }
+
 }
 
-void HAL_RTC_MspInit(RTC_HandleTypeDef *rtcHandle)
+void HAL_RTC_MspInit(RTC_HandleTypeDef* rtcHandle)
 {
 
-  if (rtcHandle->Instance == RTC)
+  if(rtcHandle->Instance==RTC)
   {
-    /* USER CODE BEGIN RTC_MspInit 0 */
+  /* USER CODE BEGIN RTC_MspInit 0 */
 
-    /* USER CODE END RTC_MspInit 0 */
+  /* USER CODE END RTC_MspInit 0 */
     HAL_PWR_EnableBkUpAccess();
     /* Enable BKP CLK enable for backup registers */
     __HAL_RCC_BKP_CLK_ENABLE();
@@ -116,28 +117,28 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *rtcHandle)
     /* RTC interrupt Init */
     HAL_NVIC_SetPriority(RTC_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(RTC_IRQn);
-    /* USER CODE BEGIN RTC_MspInit 1 */
+  /* USER CODE BEGIN RTC_MspInit 1 */
 
-    /* USER CODE END RTC_MspInit 1 */
+  /* USER CODE END RTC_MspInit 1 */
   }
 }
 
-void HAL_RTC_MspDeInit(RTC_HandleTypeDef *rtcHandle)
+void HAL_RTC_MspDeInit(RTC_HandleTypeDef* rtcHandle)
 {
 
-  if (rtcHandle->Instance == RTC)
+  if(rtcHandle->Instance==RTC)
   {
-    /* USER CODE BEGIN RTC_MspDeInit 0 */
+  /* USER CODE BEGIN RTC_MspDeInit 0 */
 
-    /* USER CODE END RTC_MspDeInit 0 */
+  /* USER CODE END RTC_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_RTC_DISABLE();
 
     /* RTC interrupt Deinit */
     HAL_NVIC_DisableIRQ(RTC_IRQn);
-    /* USER CODE BEGIN RTC_MspDeInit 1 */
+  /* USER CODE BEGIN RTC_MspDeInit 1 */
 
-    /* USER CODE END RTC_MspDeInit 1 */
+  /* USER CODE END RTC_MspDeInit 1 */
   }
 }
 
@@ -151,10 +152,10 @@ void SaveTimeToBackup(void)
   HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BCD);
   HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BCD);
 
-  // ½øÐÐ¸üÑÏ¸ñµÄÊ±¼äÓÐÐ§ÐÔ¼ì²é
+  // ï¿½ï¿½ï¿½Ð¸ï¿½ï¿½Ï¸ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ô¼ï¿½ï¿½
   if (sTime.Hours <= 0x23 && sTime.Minutes <= 0x59 && sTime.Seconds <= 0x59 &&
       sDate.Month <= 0x12 && sDate.Date <= 0x31 && sDate.Year <= 0x99 &&
-      !(sTime.Hours == 0 && sTime.Minutes == 0 && sTime.Seconds == 0)) // È·±£Ê±¼ä²»ÎªÈ«0
+      !(sTime.Hours == 0 && sTime.Minutes == 0 && sTime.Seconds == 0)) // È·ï¿½ï¿½Ê±ï¿½ä²»ÎªÈ«0
   {
     HAL_PWR_DisableBkUpAccess();
 
@@ -162,9 +163,9 @@ void SaveTimeToBackup(void)
     HAL_PWR_EnableBkUpAccess();
     __HAL_RCC_BKP_CLK_ENABLE();
 
-    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, 0); // ÏÈÐ´Èë0£¬È·±£ºóÐøÊý¾ÝÐ´ÈëÍê³ÉºóÔÙÐ´ÈëÄ§Êõ×Ö
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, 0); // ï¿½ï¿½Ð´ï¿½ï¿½0ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½Ð´ï¿½ï¿½Ä§ï¿½ï¿½ï¿½ï¿½
 
-    // Ð´ÈëÊ±¼äºÍÈÕÆÚÊý¾Ý
+    // Ð´ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_SEC, sTime.Seconds);
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MIN, sTime.Minutes);
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_HOUR, sTime.Hours);
@@ -172,10 +173,10 @@ void SaveTimeToBackup(void)
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MONTH, sDate.Month);
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_YEAR, sDate.Year);
 
-    // ×îºóÐ´ÈëÄ§Êõ×Ö£¬±íÊ¾¸üÐÂÍê³ÉÇÒÊý¾ÝÓÐÐ§
+    // ï¿½ï¿½ï¿½Ð´ï¿½ï¿½Ä§ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, BACKUP_REGISTER_MAGIC);
 
-    // ½ûÓÃ±¸·Ý·ÃÎÊ
+    // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½Ý·ï¿½ï¿½ï¿½
     HAL_PWR_DisableBkUpAccess();
     __HAL_RCC_BKP_CLK_DISABLE();
   }

@@ -10,7 +10,8 @@
 
 #include "main.h"
 
-#define slide 1
+#define up_down 1
+#define up_to_mid 2
 
 int clock_UI(void);
 
