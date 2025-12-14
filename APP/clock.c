@@ -62,7 +62,7 @@ int clock_UI()
 	static uint8_t secs2 = 0;
 	static uint8_t sec2_moving = 0;
 	static uint8_t sec2_offset_up_to_down = 0;
-	static uint8_t sec2_offset_up_to_down_1 = 0;
+
 	while (1)
 	{
 		if (check_key_press())
@@ -110,7 +110,6 @@ int clock_UI()
 		{
 			sec2_moving = 1;
 			sec2_offset_up_to_down = 0;
-			sec2_offset_up_to_down_1 = 0;
 			secs2 = MyRTC_Time.Seconds % 10;
 		}
 
@@ -127,8 +126,11 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Hours / 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(5, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(5, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
+
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", (MyRTC_Time.Hours - 1) / 10);
+				OLED_PrintASCIIString_offset_mid_to_down(5, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -151,8 +153,11 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Hours % 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(25, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(25, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
+
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", (MyRTC_Time.Hours - 1) % 10);
+				OLED_PrintASCIIString_offset_mid_to_down(25, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -185,8 +190,11 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Minutes / 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
+
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", (MyRTC_Time.Minutes - 1) / 10);
+				OLED_PrintASCIIString_offset_mid_to_down(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -209,8 +217,11 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Minutes % 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
+
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", (MyRTC_Time.Minutes - 1) % 10);
+				OLED_PrintASCIIString_offset_mid_to_down(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -233,8 +244,11 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds / 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
+
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", (MyRTC_Time.Seconds - 1) / 10);
+				OLED_PrintASCIIString_offset_mid_to_down(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
 			}
 		}
 		else
@@ -247,23 +261,27 @@ int clock_UI()
 		if (sec2_moving)
 		{
 			sec2_offset_up_to_down += 1;
-			if (sec2_offset_up_to_down > TIME_OFFSET) // 秒数个位从上到下移动
+			if (sec2_offset_up_to_down > TIME_OFFSET)
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds % 10); // 确保秒数在0-9之间
 				OLED_PrintASCIIString(116, 28, tmp, &afont16x11, OLED_COLOR_NORMAL);
 			}
-			else // 秒数固定
+			else //  秒数个位从上到下移动
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds % 10);
 				OLED_PrintASCIIString_offset_up_to_down(116, 28, tmp, &afont16x11, sec2_offset_up_to_down, OLED_COLOR_NORMAL);
+
+				// 上一秒数从中到下
+				memset(tmp, 0, sizeof(tmp));
+				sprintf(tmp, "%d", (MyRTC_Time.Seconds - 1) % 10);
+				OLED_PrintASCIIString_offset_mid_to_down(116, 28, tmp, &afont16x11, sec2_offset_up_to_down, OLED_COLOR_NORMAL);
 			}
 		}
 
 		OLED_DrawFilledRectangle(116, 12 - ADJUST_VAL, 16, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住秒数个位上半部
-		//挡住秒数个位下半部
-		OLED_DrawFilledRectangle(116, 24 - ADJUST_VAL, 16, TIME_OFFSET, OLED_COLOR_REVERSED);
+																							 
 #elif up_to_mid
 		if (hour1 != MyRTC_Time.Hours / 10)
 		{
@@ -316,7 +334,6 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Hours / 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(5, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(5, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 			}
 		}
@@ -340,7 +357,6 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Hours % 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(25, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(25, 20, tmp, &afont24x19, hour2_offset, OLED_COLOR_NORMAL);
 			}
 		}
@@ -374,7 +390,6 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Minutes / 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(60, 20, tmp, &afont24x19, min1_offset, OLED_COLOR_NORMAL);
 			}
 		}
@@ -398,7 +413,6 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Minutes % 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(80, 20, tmp, &afont24x19, min2_offset, OLED_COLOR_NORMAL);
 			}
 		}
@@ -422,7 +436,6 @@ int clock_UI()
 			{
 				memset(tmp, 0, sizeof(tmp));
 				sprintf(tmp, "%d", MyRTC_Time.Seconds / 10);
-				// OLED_PrintASCIIString_offset_mid_to_down(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString_offset_up_to_down(103, 28, tmp, &afont16x11, sec1_offset, OLED_COLOR_NORMAL);
 			}
 		}
@@ -451,6 +464,14 @@ int clock_UI()
 		}
 
 		OLED_DrawFilledRectangle(116, 12 - ADJUST_VAL, 16, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住秒数个位上半部
+		OLED_DrawFilledRectangle(103, 12 - ADJUST_VAL, 16, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住秒数十位上半部
+
+		OLED_DrawFilledRectangle(80, 0, 20, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住分钟数个位上半部
+		OLED_DrawFilledRectangle(60, 0, 20, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住分钟数十位上半部
+
+		OLED_DrawFilledRectangle(25, 0, 20, TIME_OFFSET, OLED_COLOR_REVERSED); // 挡住小时数十位上半部
+		OLED_DrawFilledRectangle(5, 0, 20, TIME_OFFSET, OLED_COLOR_REVERSED);  // 挡住日期数个位上半部
+
 #else
 		if (MyRTC_Time.Seconds % 2 == 0)
 		{
