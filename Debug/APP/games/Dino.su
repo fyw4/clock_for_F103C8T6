@@ -1,7 +1,7 @@
-../APP/games/Dino.c:75:6:introMessage	16	static
-../APP/games/Dino.c:84:6:show_line	24	static
-../APP/games/Dino.c:108:6:move_dino	16	static
-../APP/games/Dino.c:124:6:move_tree	16	static
-../APP/games/Dino.c:135:6:display_score	24	static
-../APP/games/Dino.c:153:6:tree_collision_judge	32	static
-../APP/games/Dino.c:174:6:dino_play	64	static
+Dino.c:75:6:introMessage	16	static
+Dino.c:84:6:show_line	24	static
+Dino.c:108:6:move_dino	16	static
+Dino.c:124:6:move_tree	16	static
+Dino.c:135:6:display_score	24	static
+Dino.c:153:6:tree_collision_judge	32	static
+Dino.c:174:6:dino_play	64	static

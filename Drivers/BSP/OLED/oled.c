@@ -310,39 +310,6 @@ void OLED_SetBlock(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t
   }
 }
 
-/**
- * @brief 设置一块显存区域
- * @param x 起始横坐标
- * @param y 起始纵坐标
- * @param data 数据的起始地址
- * @param w 宽度
- * @param h 高度
- * @param color 颜色
- * @note 此函数将显存中从(x,y)开始的w*h个像素设置为data中的数据
- * @note data的数据应该采用列行式排列
- */
-void OLED_SetBlock_up_to_down(uint8_t x, uint8_t y, const uint8_t *data, uint8_t w, uint8_t h, uint8_t offset, OLED_ColorMode color)
-{
-  uint8_t fullRow = h / 8; // 完整的行数（每行长8个bit）
-  uint8_t partBit = h % 8; // 不完整的字节中的有效位数
-
-  for (uint8_t i = 0; i < w; i++) // 遍历每一列
-  {
-    for (uint8_t j = 0; j < fullRow; j++) // 遍历每一行
-    {
-      OLED_SetBits(x + i, y + j * 8, data[i + j * w], color);
-    }
-  }
-  if (partBit)
-  {
-    uint16_t fullNum = w * fullRow; // 完整的字节数
-    for (uint8_t i = 0; i < w; i++)
-    {
-      OLED_SetBits_Fine(x + i, y + (fullRow * 8), data[fullNum + i], partBit, color);
-    }
-  }
-}
-
 // ========================== 图形绘制函数 ==========================
 /**
  * @brief 绘制一条线段
@@ -575,10 +542,9 @@ void OLED_PrintASCIIChar_offset_mid_to_down(uint8_t x, uint8_t y, char ch, const
  * @param offset 偏移量
  * @param color 颜色
  */
-void OLED_PrintASCIIChar_offset_up_to_down(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
+void OLED_PrintASCIIChar_offset_up_to_down(uint8_t x, uint8_t y, char ch, const ASCIIFont *font, uint8_t font_offset, uint8_t offset, OLED_ColorMode color)
 {
-  //OLED_SetBlock_up_to_down(x, y - TIME_OFFSET + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, offset, color);
-  OLED_SetBlock(x, y - TIME_OFFSET + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, color);
+  OLED_SetBlock(x, y - font_offset + offset, font->chars + (ch - ' ') * (((font->h + 7) / 8) * font->w), font->w, font->h, color);
 }
 
 /**
@@ -629,12 +595,12 @@ void OLED_PrintASCIIString_offset_mid_to_down(uint8_t x, uint8_t y, char *str, c
  * @param offset 偏移量
  * @param color 颜色
  */
-void OLED_PrintASCIIString_offset_up_to_down(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t offset, OLED_ColorMode color)
+void OLED_PrintASCIIString_offset_up_to_down(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t font_offset, uint8_t offset, OLED_ColorMode color)
 {
   uint8_t x0 = x;
   while (*str)
   {
-    OLED_PrintASCIIChar_offset_up_to_down(x0, y, *str, font, offset, color);
+    OLED_PrintASCIIChar_offset_up_to_down(x0, y, *str, font, font_offset, offset, color);
     x0 += font->w;
     str++;
   }

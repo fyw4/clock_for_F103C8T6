@@ -8,7 +8,5 @@
 #ifndef SHARE_FUNC_H_
 #define SHARE_FUNC_H_
 
-#define TIME_OFFSET 15
-#define ADJUST_VAL 4
 
 #endif /* SHARE_FUNC_H_ */
