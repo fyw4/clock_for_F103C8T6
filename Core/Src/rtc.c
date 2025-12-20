@@ -21,7 +21,7 @@
 #include "rtc.h"
 
 /* USER CODE BEGIN 0 */
-#define BACKUP_REGISTER_MAGIC 0x55AA // ����������Ч�Ա��?
+#define BACKUP_REGISTER_MAGIC 0x55AA // ����������Ч�Ա��??
 #define BACKUP_REGISTER_YEAR RTC_BKP_DR1
 #define BACKUP_REGISTER_MONTH RTC_BKP_DR2
 #define BACKUP_REGISTER_DATE RTC_BKP_DR3
@@ -54,11 +54,11 @@ void MX_RTC_Init(void)
 
   __HAL_RCC_PWR_CLK_ENABLE(); // 1. �ȿ�����Դʱ��
   HAL_PWR_EnableBkUpAccess(); // 2. Ȼ��������������
-  __HAL_RCC_BKP_CLK_ENABLE(); // 3. �����������ʱ��?
+  __HAL_RCC_BKP_CLK_ENABLE(); // 3. �����������ʱ��??
 
   if (HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_FLAG) == BACKUP_REGISTER_MAGIC)
   {
-    // �ӱ��ݼĴ�����ȡʱ�������?
+    // �ӱ��ݼĴ�����ȡʱ�������??
     sTime.Seconds = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_SEC);
     sTime.Minutes = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_MIN);
     sTime.Hours = HAL_RTCEx_BKUPRead(&hrtc, BACKUP_REGISTER_HOUR);
@@ -163,9 +163,9 @@ void SaveTimeToBackup(void)
     HAL_PWR_EnableBkUpAccess();
     __HAL_RCC_BKP_CLK_ENABLE();
 
-    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, 0); // ��д��0��ȷ����������д����ɺ���д��ħ����
+    HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_FLAG, 0); // ��д��0��ȷ����������д����ɺ���д��ħ����?
 
-    // д��ʱ�����������
+    // д��ʱ�����������?
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_SEC, sTime.Seconds);
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_MIN, sTime.Minutes);
     HAL_RTCEx_BKUPWrite(&hrtc, BACKUP_REGISTER_HOUR, sTime.Hours);

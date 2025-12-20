@@ -24,6 +24,7 @@ APP \
 APP/games \
 Core/Src \
 Core/Startup \
+Drivers/BSP/DS3231 \
 Drivers/BSP/KEY \
 Drivers/BSP/LED \
 Drivers/BSP/OLED \

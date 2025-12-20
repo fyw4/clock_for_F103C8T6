@@ -10,8 +10,12 @@
 
 #include "main.h"
 
-#define up_down 1
+#define USE_DS3231 1
+#define USE_RTC 0
+
+#define up_to_down 1
 #define up_to_mid 0
+#define test 0
 
 #define TIME_OFFSET_LARGE 24
 #define TIME_OFFSET_LITTER 16
@@ -35,6 +39,18 @@
 #define COLON_X 45
 #define COLON_Y 20
 
+typedef struct
+{
+    uint8_t year;
+    uint8_t mon;
+    uint8_t day;
+    uint8_t hour;
+    uint8_t min;
+    uint8_t sec;
+} TIME_DATA;
+
 int clock_UI(void);
+
+int clock_setting(void);
 
 #endif /* CLOCK_H_ */

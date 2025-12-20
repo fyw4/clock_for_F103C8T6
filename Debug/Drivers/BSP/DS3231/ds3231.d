@@ -1,4 +1,5 @@
-APP/clock.o: ../APP/clock.c ../APP/clock.h ../Core/Inc/main.h \
+Drivers/BSP/DS3231/ds3231.o: ../Drivers/BSP/DS3231/ds3231.c \
+ ../Drivers/BSP/DS3231/ds3231.h ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -24,12 +25,9 @@ APP/clock.o: ../APP/clock.c ../APP/clock.h ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
- ../Drivers/BSP/KEY/key.h ../Core/Inc/rtc.h ../Core/Inc/main.h \
- ../Drivers/BSP/OLED/font.h ../Drivers/BSP/OLED/oled.h \
- ../Drivers/BSP/OLED/font.h ../APP/share_func.h \
- ../Drivers/BSP/DS3231/ds3231.h ../Core/Inc/i2c.h
+ ../Core/Inc/i2c.h ../Core/Inc/main.h
 
-../APP/clock.h:
+../Drivers/BSP/DS3231/ds3231.h:
 
 ../Core/Inc/main.h:
 
@@ -83,20 +81,6 @@ APP/clock.o: ../APP/clock.c ../APP/clock.h ../Core/Inc/main.h \
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h:
 
-../Drivers/BSP/KEY/key.h:
-
-../Core/Inc/rtc.h:
+../Core/Inc/i2c.h:
 
 ../Core/Inc/main.h:
-
-../Drivers/BSP/OLED/font.h:
-
-../Drivers/BSP/OLED/oled.h:
-
-../Drivers/BSP/OLED/font.h:
-
-../APP/share_func.h:
-
-../Drivers/BSP/DS3231/ds3231.h:
-
-../Core/Inc/i2c.h:

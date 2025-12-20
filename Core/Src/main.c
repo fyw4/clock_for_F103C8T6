@@ -77,7 +77,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  int menu2;
+  int menu2 = 1;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -100,6 +100,7 @@ int main(void)
   MX_GPIO_Init();
   MX_RTC_Init();
   MX_I2C1_Init();
+  MX_I2C2_Init();
   /* USER CODE BEGIN 2 */
   OLED_Init();
   OLED_NewFrame();
@@ -113,10 +114,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    clock_UI(); // 默认界面：显示时间
-
-    menu2 = menu1();
-    if (menu2 == 1) // 进入主菜单
+    if (menu2 == 1) // 默认界面：显示时�?
     {
       clock_UI();
     }
@@ -124,10 +122,16 @@ int main(void)
     {
       menu2_games();
     }
+    else if(menu2 == 5)
+    {
+      clock_setting();
+    }
     else if (menu2 == 6)
     {
       info_message();
     }
+
+    menu2 = menu1();
   }
   /* USER CODE END 3 */
 }

@@ -12,6 +12,7 @@ RM := rm -rf
 -include Drivers/BSP/OLED/subdir.mk
 -include Drivers/BSP/LED/subdir.mk
 -include Drivers/BSP/KEY/subdir.mk
+-include Drivers/BSP/DS3231/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
 -include APP/games/subdir.mk

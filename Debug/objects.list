@@ -15,6 +15,7 @@
 "Core/Src/sysmem.o"
 "Core/Src/system_stm32f1xx.o"
 "Core/Startup/startup_stm32f103c8tx.o"
+"Drivers/BSP/DS3231/ds3231.o"
 "Drivers/BSP/KEY/key.o"
 "Drivers/BSP/LED/led.o"
 "Drivers/BSP/OLED/font.o"

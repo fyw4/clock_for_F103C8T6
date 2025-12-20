@@ -23,7 +23,6 @@ extern const Image tree_smallImg;
 extern const Image tree_bigImg;
 
 void dino_play();
-void introMessage();
 void show_line();
 
 #endif /* INC_DINO_H_ */
