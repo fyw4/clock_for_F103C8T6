@@ -1,0 +1,8 @@
+../APP/clock.c:22:5:check_key_press	9
+../APP/clock.c:61:6:dir_left_func	5
+../APP/clock.c:81:6:dir_right_func	5
+../APP/clock.c:101:6:judge_add_val	9
+../APP/clock.c:139:6:judge_dec_val	9
+../APP/clock.c:177:6:my_RTC_settime	1
+../APP/clock.c:184:5:clock_UI	32
+../APP/clock.c:627:5:clock_setting	26
