@@ -1,6 +1,6 @@
-../APP/games/Dino.c:364:6:show_line	24	static
-../APP/games/Dino.c:388:6:move_dino	16	static
-../APP/games/Dino.c:404:6:move_tree	16	static
-../APP/games/Dino.c:415:6:display_score	24	static
-../APP/games/Dino.c:433:6:tree_collision_judge	32	static
-../APP/games/Dino.c:454:6:dino_play	64	static
+Dino.c:364:6:show_line	24	static
+Dino.c:388:6:move_dino	16	static
+Dino.c:404:6:move_tree	16	static
+Dino.c:415:6:display_score	24	static
+Dino.c:433:6:tree_collision_judge	32	static
+Dino.c:454:6:dino_play	64	static

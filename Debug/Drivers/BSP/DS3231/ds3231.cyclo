@@ -1,7 +1,0 @@
-../Drivers/BSP/DS3231/ds3231.c:15:9:bcd2dec	1
-../Drivers/BSP/DS3231/ds3231.c:20:9:dec2bcd	1
-../Drivers/BSP/DS3231/ds3231.c:26:6:DS3231_Read_All	1
-../Drivers/BSP/DS3231/ds3231.c:37:7:DS3231_Read_Temp	2
-../Drivers/BSP/DS3231/ds3231.c:54:6:DS3231_Read_Time	2
-../Drivers/BSP/DS3231/ds3231.c:77:6:DS3231_Set_Time	2
-../Drivers/BSP/DS3231/ds3231.c:98:6:DS3231_Update	1

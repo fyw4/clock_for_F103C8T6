@@ -18,13 +18,14 @@
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
+TIME_DATA time_data;
 
 int check_key_press(void)
 {
 	// 按键返回
 	if (KEY_Back == GPIO_PIN_RESET)
 	{
-		HAL_Delay(10); // 去抖
+		HAL_Delay(50); // 去抖
 		if (KEY_Back == GPIO_PIN_RESET)
 		{
 			return 1; // 按键返回
@@ -32,7 +33,7 @@ int check_key_press(void)
 	}
 	else if (KEY_Up == GPIO_PIN_RESET)
 	{
-		HAL_Delay(10); // 去抖
+		HAL_Delay(50); // 去抖
 		if (KEY_Up == GPIO_PIN_RESET)
 		{
 			return 2; // 按键向左
@@ -40,7 +41,7 @@ int check_key_press(void)
 	}
 	else if (KEY_Down == GPIO_PIN_RESET)
 	{
-		HAL_Delay(10); // 去抖
+		HAL_Delay(50); // 去抖
 		if (KEY_Down == GPIO_PIN_RESET)
 		{
 			return 3; // 按键向右
@@ -48,7 +49,7 @@ int check_key_press(void)
 	}
 	else if (KEY_Confirm == GPIO_PIN_RESET)
 	{
-		HAL_Delay(10); // 去抖
+		HAL_Delay(50); // 去抖
 		if (KEY_Confirm == GPIO_PIN_RESET)
 		{
 			return 4; // 按键确认
@@ -103,7 +104,7 @@ void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t
 	if (*x_position == HOUR_TENS_DIGIT_X)
 	{
 		(*hour_tens_add_val)++;
-		if (*hour_tens_add_val > 2)
+		if (*hour_tens_add_val + time_data.hour / 10 > 2)
 		{
 			*hour_tens_add_val = 0;
 		}
@@ -111,7 +112,7 @@ void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t
 	else if (*x_position == HOUR_ONES_DIGIT_X)
 	{
 		(*hour_digit_add_val)++;
-		if (*hour_digit_add_val > 9)
+		if (*hour_digit_add_val + time_data.hour % 10 > 3)
 		{
 			*hour_digit_add_val = 0;
 		}
@@ -119,7 +120,7 @@ void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t
 	else if (*x_position == MINUTE_TENS_DIGIT_X)
 	{
 		(*min_tens_add_val)++;
-		if (*min_tens_add_val > 5)
+		if (*min_tens_add_val + time_data.min / 10 > 5)
 		{
 			*min_tens_add_val = 0;
 		}
@@ -127,7 +128,7 @@ void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t
 	else if (*x_position == MINUTE_ONES_DIGIT_X)
 	{
 		(*min_digit_add_val)++;
-		if (*min_digit_add_val > 9)
+		if (*min_digit_add_val + time_data.min % 10 > 9)
 		{
 			*min_digit_add_val = 0;
 		}
@@ -149,7 +150,7 @@ void judge_dec_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t
 	else if (*x_position == HOUR_ONES_DIGIT_X)
 	{
 		(*hour_digit_add_val)--;
-		if (*hour_digit_add_val < -9)
+		if (*hour_digit_add_val < -3)
 		{
 			*hour_digit_add_val = 0;
 		}
@@ -200,8 +201,6 @@ int clock_UI()
 	static uint8_t secs_dig_old = 0;
 	static uint8_t sec_dec_moving = 0;
 	static uint8_t sec_dec_offset_up_to_down = 0;
-
-	TIME_DATA time_data;
 
 	while (1)
 	{
@@ -651,6 +650,8 @@ int clock_setting()
 
 	while (1)
 	{
+		key_val = 0;
+
 #if USE_DS3231
 		DS3231_Read_All();
 		DS3231_Read_Time();
@@ -668,7 +669,7 @@ int clock_setting()
 
 		OLED_NewFrame();
 
-		//  绘制小时数十位数
+		// 绘制小时数十位数
 		if (hour_tens_add_val >= 0)
 		{
 			hour_tens_val = (int8_t)time_data.hour / 10 + hour_tens_add_val > 2 ? 0 : (int8_t)time_data.hour / 10 + hour_tens_add_val;
@@ -684,7 +685,7 @@ int clock_setting()
 		// 绘制小时数个位数
 		if (hour_digit_add_val >= 0)
 		{
-			hour_digit_val = (int8_t)time_data.hour % 10 + hour_digit_add_val > 9 ? 0 : (int8_t)time_data.hour % 10 + hour_digit_add_val;
+			hour_digit_val = (int8_t)time_data.hour % 10 + hour_digit_add_val > 3 ? 0 : (int8_t)time_data.hour % 10 + hour_digit_add_val;
 		}
 		else
 		{
@@ -774,6 +775,7 @@ int clock_setting()
 		if (key_val == 1) // 返回主界面
 		{
 			my_RTC_settime();
+			HAL_Delay(180);
 			return 0;
 		}
 		else if (key_val == 2) // 向上调整时间
@@ -796,6 +798,15 @@ int clock_setting()
 				.sec = (uint8_t)sec_tens_val * 10 + (uint8_t)sec_digit_val};
 			DS3231_Set_Time(&time);
 			DS3231_Update();
+
+			// 清除调整值
+			hour_tens_add_val = 0;
+			hour_digit_add_val = 0;
+			min_tens_add_val = 0;
+			min_digit_add_val = 0;
+			sec_tens_add_val = 0;
+			sec_digit_add_val = 0;
+
 			HAL_Delay(180);
 		}
 	}

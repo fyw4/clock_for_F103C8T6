@@ -1,2 +1,2 @@
-../APP/menu.c:17:5:menu2_games	24	static
-../APP/menu.c:107:5:menu1	16	static
+menu.c:17:5:menu2_games	24	static
+menu.c:107:5:menu1	16	static

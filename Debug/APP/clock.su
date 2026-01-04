@@ -1,8 +1,8 @@
-../APP/clock.c:22:5:check_key_press	8	static
-../APP/clock.c:61:6:dir_left_func	16	static
-../APP/clock.c:81:6:dir_right_func	16	static
-../APP/clock.c:101:6:judge_add_val	24	static
-../APP/clock.c:139:6:judge_dec_val	24	static
-../APP/clock.c:177:6:my_RTC_settime	8	static
-../APP/clock.c:184:5:clock_UI	48	static
-../APP/clock.c:627:5:clock_setting	64	static
+clock.c:23:5:check_key_press	8	static
+clock.c:62:6:dir_left_func	16	static
+clock.c:82:6:dir_right_func	16	static
+clock.c:102:6:judge_add_val	24	static
+clock.c:140:6:judge_dec_val	24	static
+clock.c:178:6:my_RTC_settime	8	static
+clock.c:185:5:clock_UI	40	static
+clock.c:626:5:clock_setting	64	static
