@@ -19,6 +19,8 @@
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
 TIME_DATA time_data;
+int8_t hour_tens_val = 0;
+uint8_t flag = 0;
 
 int check_key_press(void)
 {
@@ -99,7 +101,7 @@ void dir_right_func(uint8_t *x_position, uint8_t *y_position)
 	}
 }
 
-void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t *min_tens_add_val, int8_t *min_digit_add_val, int8_t *sec_tens_add_val, int8_t *sec_digit_add_val, uint8_t *x_position, uint8_t *y_position)
+void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val_max_3, int8_t *hour_digit_add_val_max_9, int8_t *min_tens_add_val, int8_t *min_digit_add_val, int8_t *sec_tens_add_val, int8_t *sec_digit_add_val, uint8_t *x_position, uint8_t *y_position)
 {
 	if (*x_position == HOUR_TENS_DIGIT_X)
 	{
@@ -111,10 +113,22 @@ void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val, int8_t
 	}
 	else if (*x_position == HOUR_ONES_DIGIT_X)
 	{
-		(*hour_digit_add_val)++;
-		if (*hour_digit_add_val > 3)
+		if (hour_tens_val <= 1)
 		{
-			*hour_digit_add_val = 0;
+			(*hour_digit_add_val_max_9)++;
+			if (*hour_digit_add_val_max_9 > 9)
+			{
+				*hour_digit_add_val_max_9 = 0;
+			}
+		}
+		else
+		{
+			flag = 1;
+			(*hour_digit_add_val_max_3)++;
+			if (*hour_digit_add_val_max_3 > 3)
+			{
+				*hour_digit_add_val_max_3 = 0;
+			}
 		}
 	}
 	else if (*x_position == MINUTE_TENS_DIGIT_X)
@@ -588,7 +602,7 @@ int clock_UI()
 int clock_setting()
 {
 	char tmp[10] = {0};
-	TIME_DATA time_data;
+
 	static uint32_t last_blink_time = 0; // 上次闪烁时间
 	static uint8_t blink_state = 0;		 // 闪烁状态（0或1）
 	const uint16_t blink_interval = 500; // 闪烁间隔（毫秒）
@@ -596,19 +610,23 @@ int clock_setting()
 	uint8_t y_position = HOUR_TENS_DIGIT_Y;
 	uint8_t key_val = 0;
 
-	static int8_t hour_tens_val = 0;
-	static int8_t hour_digit_val = 0;
-	static int8_t min_tens_val = 0;
-	static int8_t min_digit_val = 0;
-	static int8_t sec_tens_val = 0;
-	static int8_t sec_digit_val = 0;
+	int8_t hour_digit_val = 0;
+	int8_t min_tens_val = 0;
+	int8_t min_digit_val = 0;
+	int8_t sec_tens_val = 0;
+	int8_t sec_digit_val = 0;
 
-	static int8_t hour_tens_add_val = 0;
-	static int8_t hour_digit_add_val = 0;
-	static int8_t min_tens_add_val = 0;
-	static int8_t min_digit_add_val = 0;
-	static int8_t sec_tens_add_val = 0;
-	static int8_t sec_digit_add_val = 0;
+	int8_t hour_tens_add_val = 0;
+	int8_t hour_digit_add_val_max_3 = 0;
+	int8_t hour_digit_add_val_max_9 = 0;
+	int8_t min_tens_add_val = 0;
+	int8_t min_digit_add_val = 0;
+	int8_t sec_tens_add_val = 0;
+	int8_t sec_digit_add_val = 0;
+
+	int8_t time_val = 0;
+
+	hour_tens_val = 0;
 
 	while (1)
 	{
@@ -638,10 +656,48 @@ int clock_setting()
 		OLED_PrintASCIIString(HOUR_TENS_DIGIT_X, HOUR_TENS_DIGIT_Y, tmp, &afont24x19, OLED_COLOR_NORMAL);
 
 		// 绘制小时数个位数
-		hour_digit_val = ((int8_t)time_data.hour % 10 + hour_digit_add_val) > 3 ? ((int8_t)time_data.hour % 10 + hour_digit_add_val - 4) : ((int8_t)time_data.hour % 10 + hour_digit_add_val);
+		if (hour_tens_val <= 1)
+		{
+			if (1 == flag) // 若x坐标在小时个位数上时调整过
+			{
+				hour_digit_add_val_max_9 = hour_digit_val + 10 - (int8_t)time_data.hour % 10;
+				hour_digit_add_val_max_3 = 0;
+				flag = 0;
+			}
+
+			hour_digit_val = ((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9) > 9 ? ((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9 - 10) : ((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9);
+		}
+		else
+		{
+			if ((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9 - 3 > 0)
+			{
+				time_val = 3;
+			}
+			else
+			{
+				time_val = (int8_t)time_data.hour % 10 + hour_digit_add_val_max_9;
+			}
+			hour_digit_val = (time_val + hour_digit_add_val_max_3) > 3 ? (time_val + hour_digit_add_val_max_3 - 4) : (time_val + hour_digit_add_val_max_3);
+		}
+
 		memset(tmp, 0, sizeof(tmp));
 		sprintf(tmp, "%d", hour_digit_val);
 		OLED_PrintASCIIString(HOUR_ONES_DIGIT_X, HOUR_ONES_DIGIT_Y, tmp, &afont24x19, OLED_COLOR_NORMAL);
+
+		///////////////////////////////////
+
+		// memset(tmp, 0, sizeof(tmp));
+		// sprintf(tmp, "%d", (int8_t)time_data.hour % 10);
+		// OLED_PrintASCIIString(0, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
+
+		// memset(tmp, 0, sizeof(tmp));
+		// sprintf(tmp, "%d", hour_digit_add_val_max_3);
+		// OLED_PrintASCIIString(10, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
+
+		// memset(tmp, 0, sizeof(tmp));
+		// sprintf(tmp, "%d", hour_digit_add_val_max_9);
+		// OLED_PrintASCIIString(20, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
+		///////////////////////////////////
 
 		memset(tmp, 0, sizeof(tmp));
 		if (time_data.sec % 2 == 0)
@@ -700,7 +756,7 @@ int clock_setting()
 		}
 		else if (key_val == 2) // 向上调整时间
 		{
-			judge_add_val(&hour_tens_add_val, &hour_digit_add_val, &min_tens_add_val, &min_digit_add_val, &sec_tens_add_val, &sec_digit_add_val, &x_position, &y_position);
+			judge_add_val(&hour_tens_add_val, &hour_digit_add_val_max_3, &hour_digit_add_val_max_9, &min_tens_add_val, &min_digit_add_val, &sec_tens_add_val, &sec_digit_add_val, &x_position, &y_position);
 			HAL_Delay(180);
 		}
 		else if (key_val == 3) // 向右移动
@@ -720,7 +776,8 @@ int clock_setting()
 
 			// 清除调整值
 			hour_tens_add_val = 0;
-			hour_digit_add_val = 0;
+			hour_digit_add_val_max_3 = 0;
+			hour_digit_add_val_max_9 = 0;
 			min_tens_add_val = 0;
 			min_digit_add_val = 0;
 			sec_tens_add_val = 0;
