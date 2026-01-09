@@ -660,7 +660,7 @@ int clock_setting()
 		{
 			if (1 == flag) // 若x坐标在小时个位数上时调整过
 			{
-				hour_digit_add_val_max_9 = hour_digit_val + 10 - (int8_t)time_data.hour % 10;
+				hour_digit_add_val_max_9 = hour_digit_val + 10 - (int8_t)time_data.hour % 10; // 当十位数为0或者1时，保持个位数大小 和 十位数为2时的个位数大小 一样
 				hour_digit_add_val_max_3 = 0;
 				flag = 0;
 			}
@@ -669,9 +669,16 @@ int clock_setting()
 		}
 		else
 		{
-			if ((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9 - 3 > 0)
+			if (((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9) - 3 > 0) // 若个位数大小超过3
 			{
-				time_val = 3;
+				if ((int8_t)time_data.hour % 10 + hour_digit_add_val_max_9 - 10 <= 3 && (int8_t)time_data.hour % 10 + hour_digit_add_val_max_9 - 10 >= 0)
+				{
+					time_val = (int8_t)time_data.hour % 10 + hour_digit_add_val_max_9 - 10; //保证十位数为0或1且个位数设置大小小于4后，当十位数变为2时，个位数保持不变
+				}
+				else
+				{
+					time_val = 3;//保证十位数为0或1且个位数设置大小大于等于4后，当十位数变为2时，个位数为3
+				}
 			}
 			else
 			{
@@ -685,7 +692,6 @@ int clock_setting()
 		OLED_PrintASCIIString(HOUR_ONES_DIGIT_X, HOUR_ONES_DIGIT_Y, tmp, &afont24x19, OLED_COLOR_NORMAL);
 
 		///////////////////////////////////
-
 		// memset(tmp, 0, sizeof(tmp));
 		// sprintf(tmp, "%d", (int8_t)time_data.hour % 10);
 		// OLED_PrintASCIIString(0, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
