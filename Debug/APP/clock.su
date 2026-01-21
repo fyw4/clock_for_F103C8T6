@@ -1,7 +1,7 @@
 clock.c:25:5:check_key_press	8	static
 clock.c:64:6:dir_left_func	16	static
 clock.c:84:6:dir_right_func	16	static
-clock.c:104:6:judge_add_val	24	static
-clock.c:154:6:my_RTC_settime	8	static
-clock.c:161:5:clock_UI	40	static
-clock.c:602:5:clock_setting	80	static
+clock.c:108:6:judge_add_val	24	static
+clock.c:162:6:my_RTC_settime	8	static
+clock.c:169:5:clock_UI	48	static
+clock.c:622:5:clock_setting	88	static

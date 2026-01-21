@@ -21,6 +21,13 @@
 #define TIME_OFFSET_LITTER 16
 #define ADJUST_VAL 4
 
+#define YEAR_DIGIT_X 5
+#define YEAR_DIGIT_Y 8
+#define MON_DIGIT_X 25
+#define MON_DIGIT_Y 8
+#define DATE_DIGIT_X 60
+#define DATE_DIGIT_Y 8
+
 #define HOUR_TENS_DIGIT_X 5
 #define HOUR_TENS_DIGIT_Y 20
 #define HOUR_ONES_DIGIT_X 25
@@ -35,6 +42,9 @@
 #define SEC_TENS_DIGIT_Y 28
 #define SEC_ONES_DIGIT_X 116
 #define SEC_ONES_DIGIT_Y 28
+
+#define SEC_DIGIT_X 103
+#define SEC_DIGIT_Y 28
 
 #define COLON_X 45
 #define COLON_Y 20
