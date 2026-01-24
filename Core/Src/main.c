@@ -124,7 +124,7 @@ int main(void)
     }
     else if(menu2 == 5)
     {
-      clock_setting();
+      menu2_settings();
     }
     else if (menu2 == 6)
     {

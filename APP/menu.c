@@ -11,6 +11,7 @@
 #include "flappy_bird.h"
 #include "star_war.h"
 #include "Dino.h"
+#include "clock.h"
 
 uint8_t KeyNum; // 用于存储键码值
 
@@ -103,7 +104,83 @@ int menu2_games()
 
 		OLED_ShowFrame();
 	}
+	return 0;
 }
+
+int menu2_settings()
+{
+	int action = 0;
+	static uint8_t flag = 1;
+
+	while (1)
+	{
+		OLED_NewFrame();
+		KeyNum = Key_GetNum();
+		if (KeyNum == 1) // 上一项
+		{
+			flag--;
+			if (flag == 0)
+			{
+				flag = 2;
+			}
+		}
+		if (KeyNum == 2) // 下一项
+		{
+			flag++;
+			if (flag == 3)
+			{
+				flag = 1;
+			}
+		}
+		if (KeyNum == 3) // 确认
+		{
+			action = flag;
+		}
+		if (KeyNum == 4) // 后退
+		{
+			return 0;
+		}
+
+		if (1 == action)
+		{
+			clock_setting();
+			action = 0;
+			HAL_Delay(300);
+		}
+		else if (2 == action)
+		{
+			calendar_setting();
+			action = 0;
+			HAL_Delay(300);
+		}
+
+
+		switch (flag)
+		{
+		case 1:
+		{
+
+			OLED_DrawImage(0, 0, &Arrow_Data_Img, OLED_COLOR_NORMAL);
+			break;
+		}
+		case 2:
+		{
+			OLED_DrawImage(0, 16, &Arrow_Data_Img, OLED_COLOR_NORMAL);
+			break;
+		}
+		default:
+			break;
+		}
+
+		OLED_PrintString(10, 0, "时间设置", &font16x16, OLED_COLOR_NORMAL);
+		OLED_PrintString(10, 16, "日期设置", &font16x16, OLED_COLOR_NORMAL);
+
+		OLED_ShowFrame();
+	}
+
+	return 0;
+}
+
 int menu1(void)
 {
 	static uint8_t flag = 1;

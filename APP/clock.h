@@ -23,10 +23,16 @@
 
 #define YEAR_DIGIT_X 5
 #define YEAR_DIGIT_Y 8
-#define MON_DIGIT_X 25
+#define YEAR_DIGIT_SETTING_Y 20
+#define MON_DIGIT_X 60
 #define MON_DIGIT_Y 8
-#define DATE_DIGIT_X 60
+#define MON_DIGIT_SETTING_Y 20
+#define DATE_DIGIT_X 90
 #define DATE_DIGIT_Y 8
+#define DATE_DIGIT_SETTING_Y 20
+#define DAY_DIGIT_X 100
+#define DAY_DIGIT_Y 8
+#define DAY_DIGIT_SETTING_Y 20
 
 #define HOUR_TENS_DIGIT_X 5
 #define HOUR_TENS_DIGIT_Y 20
@@ -53,7 +59,8 @@ typedef struct
 {
     uint8_t year;
     uint8_t mon;
-    uint8_t day;
+    uint8_t day;  // ÐÇÆÚ£¨1~7£©
+    uint8_t date; // ÈÕÆÚ£¨1~31£©
     uint8_t hour;
     uint8_t min;
     uint8_t sec;
@@ -62,5 +69,7 @@ typedef struct
 int clock_UI(void);
 
 int clock_setting(void);
+
+int calendar_setting(void);
 
 #endif /* CLOCK_H_ */

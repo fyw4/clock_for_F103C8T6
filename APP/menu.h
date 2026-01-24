@@ -10,5 +10,6 @@
 
 int menu1(void);
 int menu2_games(void);
+int menu2_settings(void);
 
 #endif /* INC_MENU_H_ */

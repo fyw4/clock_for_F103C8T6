@@ -26,7 +26,8 @@ APP/menu.o: ../APP/menu.c ../APP/menu.h ../Drivers/BSP/OLED/oled.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
  ../Drivers/BSP/KEY/key.h ../APP/games/flappy_bird.h \
- ../Drivers/BSP/OLED/font.h ../APP/games/star_war.h ../APP/games/Dino.h
+ ../Drivers/BSP/OLED/font.h ../APP/games/star_war.h ../APP/games/Dino.h \
+ ../APP/clock.h
 
 ../APP/menu.h:
 
@@ -95,3 +96,5 @@ APP/menu.o: ../APP/menu.c ../APP/menu.h ../Drivers/BSP/OLED/oled.h \
 ../APP/games/star_war.h:
 
 ../APP/games/Dino.h:
+
+../APP/clock.h:

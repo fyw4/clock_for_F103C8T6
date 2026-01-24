@@ -85,8 +85,8 @@ typedef struct
     uint8_t sec;
     uint8_t year;
     uint8_t mon;
-    uint8_t date;
-    uint8_t day;
+    uint8_t date; // 日期（1~31）
+    uint8_t day;  // 星期（1~7）
 } DS3231_TimeType;
 
 /*DS3231结构体缓存*/

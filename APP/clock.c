@@ -18,6 +18,7 @@
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
+DS3231_TimeType time_set_val;
 TIME_DATA time_data;
 int8_t hour_tens_val = 0;
 uint8_t flag = 0;
@@ -61,6 +62,52 @@ int check_key_press(void)
 	return 0;
 }
 
+/**
+ * @brief 根据年月日判断星期（使用基姆拉尔森计算公式）
+ * @param year 年
+ * @param mon 月
+ * @param Date 日
+ */
+const char *getWeekdayByYearday(int year, int mon, int Date)
+{
+	int weekday = -1;
+	if (1 == mon || 2 == mon)
+	{
+		mon += 12;
+		year--;
+	}
+	weekday = (Date + 1 + 2 * mon + 3 * (mon + 1) / 5 + year + year / 4 - year / 100 + year / 400) % 7;
+	switch (weekday)
+	{
+	case 0:
+		return "Sun";
+		break;
+	case 1:
+		return "Mon";
+		break;
+	case 2:
+		return "Tue";
+		break;
+	case 3:
+		return "Wed";
+		break;
+	case 4:
+		return "Thu";
+		break;
+	case 5:
+		return "Fri";
+		break;
+	case 6:
+		return "Sat";
+		break;
+	default:
+		return NULL;
+		break;
+	}
+
+	return NULL;
+}
+
 void dir_left_func(uint8_t *x_position, uint8_t *y_position)
 {
 	if (*x_position == HOUR_TENS_DIGIT_X)
@@ -81,7 +128,23 @@ void dir_left_func(uint8_t *x_position, uint8_t *y_position)
 	}
 }
 
-void dir_right_func(uint8_t *x_position, uint8_t *y_position)
+void date_dir_right_func(uint8_t *x_position, uint8_t *y_position)
+{
+	if (*x_position == YEAR_DIGIT_X)
+	{
+		*x_position = MON_DIGIT_X;
+	}
+	else if (*x_position == MON_DIGIT_X)
+	{
+		*x_position = DATE_DIGIT_X;
+	}
+	else if (*x_position == DATE_DIGIT_X)
+	{
+		*x_position = YEAR_DIGIT_X;
+	}
+}
+
+void time_dir_right_func(uint8_t *x_position, uint8_t *y_position)
 {
 	if (*x_position == HOUR_TENS_DIGIT_X)
 	{
@@ -105,7 +168,35 @@ void dir_right_func(uint8_t *x_position, uint8_t *y_position)
 	}
 }
 
-void judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val_max_3, int8_t *hour_digit_add_val_max_9, int8_t *min_tens_add_val, int8_t *min_digit_add_val, int8_t *sec_tens_add_val, int8_t *sec_digit_add_val, int8_t *sec_add_val, uint8_t *x_position, uint8_t *y_position)
+void date_judge_add_val(uint8_t *year_add_val, uint8_t *mon_add_val, uint8_t *date_add_val, uint8_t *x_position, uint8_t *y_position)
+{
+	if (*x_position == YEAR_DIGIT_X)
+	{
+		(*year_add_val)++;
+		if (*year_add_val > 99)
+		{
+			*year_add_val = 0;
+		}
+	}
+	else if (*x_position == MON_DIGIT_X)
+	{
+		(*mon_add_val)++;
+		if (*mon_add_val > 12)
+		{
+			*mon_add_val = 0;
+		}
+	}
+	else if (*x_position == DATE_DIGIT_X)
+	{
+		(*date_add_val)++;
+		if (*date_add_val > 31)
+		{
+			*date_add_val = 0;
+		}
+	}
+}
+
+void time_judge_add_val(int8_t *hour_tens_add_val, int8_t *hour_digit_add_val_max_3, int8_t *hour_digit_add_val_max_9, int8_t *min_tens_add_val, int8_t *min_digit_add_val, int8_t *sec_tens_add_val, int8_t *sec_digit_add_val, int8_t *sec_add_val, int8_t *year_add_val, int8_t *mon_add_val, int8_t *day_add_val, uint8_t *x_position, uint8_t *y_position)
 {
 	if (*x_position == HOUR_TENS_DIGIT_X)
 	{
@@ -203,6 +294,7 @@ int clock_UI()
 		time_data.year = DS3231_Time.year;
 		time_data.mon = DS3231_Time.mon;
 		time_data.day = DS3231_Time.day;
+		time_data.date = DS3231_Time.date;
 #else
 		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
 		HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
@@ -213,6 +305,7 @@ int clock_UI()
 		time_data.year = MyRTC_Date.Year;
 		time_data.mon = MyRTC_Date.Month;
 		time_data.day = MyRTC_Date.Date;
+		time_data.date = DS3231_Time.date;
 #endif
 
 		OLED_NewFrame();
@@ -604,8 +697,13 @@ int clock_UI()
 
 		// 年月日显示
 		memset(tmp, 0, sizeof(tmp));
-		sprintf(tmp, "%04d-%02d-%02d", (time_data.year + 2000), time_data.mon, time_data.day);
+		sprintf(tmp, "%04d-%02d-%02d", (time_data.year + 2000), time_data.mon, time_data.date);
 		OLED_PrintASCIIString(YEAR_DIGIT_X, YEAR_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
+
+		// 绘制星期
+		memset(tmp, 0, sizeof(tmp));
+		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int) time_data.mon, (int)time_data.date));
+		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
 
@@ -618,10 +716,169 @@ int clock_UI()
 
 	return 0;
 }
+int calendar_setting()
+{
+	char tmp[20] = {0};
+
+	static uint32_t last_blink_time = 0; // 上次闪烁时间
+	static uint8_t blink_state = 0;		 // 闪烁状态（0或1）
+	const uint16_t blink_interval = 700; // 闪烁间隔（毫秒）
+	uint8_t x_position = YEAR_DIGIT_X;
+	uint8_t y_position = YEAR_DIGIT_SETTING_Y;
+	uint8_t key_val = 0;
+
+	uint8_t year_add_val = 0;
+	uint8_t mon_add_val = 0;
+	uint8_t date_add_val = 0;
+
+	uint16_t display_year = 0;
+	uint16_t year_val = 0;
+	uint8_t mon_val = 0;
+	uint8_t date_val = 0;
+
+	while (1)
+	{
+		key_val = 0;
+
+#if USE_DS3231
+		DS3231_Read_All();
+		DS3231_Read_Time();
+		time_data.year = DS3231_Time.year;
+		time_data.mon = DS3231_Time.mon;
+		time_data.date = DS3231_Time.date;
+		time_data.day = DS3231_Time.day;
+		time_data.hour = DS3231_Time.hour;
+		time_data.min = DS3231_Time.min;
+		time_data.sec = DS3231_Time.sec;
+#else
+		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
+		HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
+
+		time_data.year = MyRTC_Date.Year;
+		time_data.mon = MyRTC_Date.Month;
+		time_data.date = MyRTC_Date.Date;
+		time_data.day = MyRTC_Date.WeekDay;
+		time_data.hour = MyRTC_Time.Hours;
+		time_data.min = MyRTC_Time.Minutes;
+		time_data.sec = MyRTC_Time.Seconds;
+#endif
+		OLED_NewFrame();
+
+		// 绘制年份
+		display_year = time_data.year + year_add_val;
+		if (display_year > 99)
+		{
+			display_year -= 100;
+		}
+		year_val = 2000 + display_year;
+
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", year_val / 1000);
+		OLED_PrintASCIIString(YEAR_DIGIT_X, YEAR_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", (year_val / 100) % 10);
+		OLED_PrintASCIIString(YEAR_DIGIT_X + 12, YEAR_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", (year_val / 10) % 10);
+		OLED_PrintASCIIString(YEAR_DIGIT_X + 23, YEAR_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", year_val % 10);
+		OLED_PrintASCIIString(YEAR_DIGIT_X + 34, YEAR_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+
+		mon_val = (time_data.mon + mon_add_val) > 12 ? (time_data.mon + mon_add_val - 12) : (time_data.mon + mon_add_val);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", mon_val / 10);
+		OLED_PrintASCIIString(MON_DIGIT_X, MON_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", mon_val % 10);
+		OLED_PrintASCIIString(MON_DIGIT_X + 12, MON_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+
+		date_val = (time_data.date + date_add_val) > 31 ? (time_data.date + date_add_val - 31) : (time_data.date + date_add_val);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", date_val / 10);
+		OLED_PrintASCIIString(DATE_DIGIT_X, DATE_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%d", date_val % 10);
+		OLED_PrintASCIIString(DATE_DIGIT_X + 12, DATE_DIGIT_SETTING_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
+
+		// 闪烁效果实现
+		if (HAL_GetTick() - last_blink_time >= blink_interval)
+		{
+			blink_state = !blink_state;		 // 切换闪烁状态
+			last_blink_time = HAL_GetTick(); // 更新上次闪烁时间
+		}
+
+		if (blink_state)
+		{
+			if (x_position == YEAR_DIGIT_X)
+			{
+				OLED_PrintASCIIString(YEAR_DIGIT_X, YEAR_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString(YEAR_DIGIT_X + 12, YEAR_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString(YEAR_DIGIT_X + 23, YEAR_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString(YEAR_DIGIT_X + 34, YEAR_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+			}
+			else if (x_position == MON_DIGIT_X)
+			{
+				OLED_PrintASCIIString(MON_DIGIT_X, MON_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString(MON_DIGIT_X + 12, MON_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+			}
+			else if(x_position == DATE_DIGIT_X)
+			{
+				OLED_PrintASCIIString(DATE_DIGIT_X, DATE_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+				OLED_PrintASCIIString(DATE_DIGIT_X + 12, DATE_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
+			}
+			else
+			{
+				OLED_PrintASCIIString(x_position, y_position, " ", &afont16x11, OLED_COLOR_NORMAL);
+			}
+		}
+
+		OLED_ShowFrame();
+
+		key_val = check_key_press();
+		if (key_val == 1) // 返回主界面
+		{
+			my_RTC_settime();
+			HAL_Delay(180);
+			return 0;
+		}
+		else if (key_val == 2) // 向上调整时间
+		{
+			date_judge_add_val(&year_add_val, &mon_add_val, &date_add_val, &x_position, &y_position);
+			HAL_Delay(180);
+		}
+		else if (key_val == 3) // 向右移动
+		{
+			date_dir_right_func(&x_position, &y_position);
+			HAL_Delay(180);
+		}
+		else if (key_val == 4)
+		{
+			// 设置时间
+			time_set_val.year = (uint8_t)(year_val % 100);
+			time_set_val.mon = mon_val,
+			time_set_val.date = date_val,
+			time_set_val.hour = time_data.hour,
+			time_set_val.min = time_data.min,
+			time_set_val.sec = time_data.sec,
+
+			DS3231_Set_Time(&time_set_val);
+			DS3231_Update();
+
+			// 清除调整值
+			year_add_val = 0;
+			mon_add_val = 0;
+			date_add_val = 0;
+			HAL_Delay(180);
+		}
+	}
+
+	return 0;
+}
 
 int clock_setting()
 {
-	char tmp[10] = {0};
+	char tmp[20] = {0};
 
 	static uint32_t last_blink_time = 0; // 上次闪烁时间
 	static uint8_t blink_state = 0;		 // 闪烁状态（0或1）
@@ -647,6 +904,10 @@ int clock_setting()
 	int8_t sec_add_val = 0;
 	int8_t sec_tmp_val = 0;
 
+	int8_t year_add_val = 0;
+	int8_t mon_add_val = 0;
+	int8_t day_add_val = 0;
+
 	int8_t time_val = 0;
 
 	hour_tens_val = 0;
@@ -658,6 +919,9 @@ int clock_setting()
 #if USE_DS3231
 		DS3231_Read_All();
 		DS3231_Read_Time();
+		time_data.year = DS3231_Time.year;
+		time_data.mon = DS3231_Time.mon;
+		time_data.date = DS3231_Time.date;
 		time_data.hour = DS3231_Time.hour;
 		time_data.min = DS3231_Time.min;
 		time_data.sec = DS3231_Time.sec;
@@ -665,6 +929,9 @@ int clock_setting()
 		HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
 		HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
 
+		time_data.year = MyRTC_Date.Year;
+		time_data.mon = MyRTC_Date.Month;
+		time_data.date = MyRTC_Date.Date;
 		time_data.hour = MyRTC_Time.Hours;
 		time_data.min = MyRTC_Time.Minutes;
 		time_data.sec = MyRTC_Time.Seconds;
@@ -714,20 +981,6 @@ int clock_setting()
 		sprintf(tmp, "%d", hour_digit_val);
 		OLED_PrintASCIIString(HOUR_ONES_DIGIT_X, HOUR_ONES_DIGIT_Y, tmp, &afont24x19, OLED_COLOR_NORMAL);
 
-		///////////////////////////////////
-		// memset(tmp, 0, sizeof(tmp));
-		// sprintf(tmp, "%d", (int8_t)time_data.hour % 10);
-		// OLED_PrintASCIIString(0, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
-
-		// memset(tmp, 0, sizeof(tmp));
-		// sprintf(tmp, "%d", hour_digit_add_val_max_3);
-		// OLED_PrintASCIIString(10, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
-
-		// memset(tmp, 0, sizeof(tmp));
-		// sprintf(tmp, "%d", hour_digit_add_val_max_9);
-		// OLED_PrintASCIIString(20, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
-		///////////////////////////////////
-
 		memset(tmp, 0, sizeof(tmp));
 		if (time_data.sec % 2 == 0)
 		{
@@ -749,18 +1002,6 @@ int clock_setting()
 		memset(tmp, 0, sizeof(tmp));
 		sprintf(tmp, "%d", min_digit_val);
 		OLED_PrintASCIIString(MINUTE_ONES_DIGIT_X, MINUTE_ONES_DIGIT_Y, tmp, &afont24x19, OLED_COLOR_NORMAL);
-
-		// 绘制秒数十位数
-		// sec_tens_val = ((int8_t)time_data.sec / 10 + sec_tens_add_val) > 5 ? ((int8_t)time_data.sec / 10 + sec_tens_add_val - 6) : ((int8_t)time_data.sec / 10 + sec_tens_add_val);
-		// memset(tmp, 0, sizeof(tmp));
-		// sprintf(tmp, "%d", sec_tens_val);
-		// OLED_PrintASCIIString(SEC_TENS_DIGIT_X, SEC_TENS_DIGIT_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
-
-		// // 绘制秒数个位数
-		// sec_digit_val = ((int8_t)time_data.sec % 10 + sec_digit_add_val) > 9 ? ((int8_t)time_data.sec % 10 + sec_digit_add_val - 10) : ((int8_t)time_data.sec % 10 + sec_digit_add_val);
-		// memset(tmp, 0, sizeof(tmp));
-		// sprintf(tmp, "%d", sec_digit_val);
-		// OLED_PrintASCIIString(SEC_ONES_DIGIT_X, SEC_ONES_DIGIT_Y, tmp, &afont16x11, OLED_COLOR_NORMAL);
 
 		// 绘制秒数
 		if (1 == sec_add_val) // 若秒数增加标志位为1
@@ -815,6 +1056,16 @@ int clock_setting()
 			}
 		}
 
+		// 年月日显示
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%04d-%02d-%02d", (time_data.year + 2000), time_data.mon, time_data.date);
+		OLED_PrintASCIIString(YEAR_DIGIT_X, YEAR_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
+
+		// 绘制星期
+		memset(tmp, 0, sizeof(tmp));
+		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int) time_data.mon, (int)time_data.date));
+		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
+
 		OLED_ShowFrame();
 
 		key_val = check_key_press();
@@ -826,23 +1077,24 @@ int clock_setting()
 		}
 		else if (key_val == 2) // 向上调整时间
 		{
-			judge_add_val(&hour_tens_add_val, &hour_digit_add_val_max_3, &hour_digit_add_val_max_9, &min_tens_add_val, &min_digit_add_val, &sec_tens_add_val, &sec_digit_add_val, &sec_add_val, &x_position, &y_position);
+			time_judge_add_val(&hour_tens_add_val, &hour_digit_add_val_max_3, &hour_digit_add_val_max_9, &min_tens_add_val, &min_digit_add_val, &sec_tens_add_val, &sec_digit_add_val, &sec_add_val, &year_add_val, &mon_add_val, &day_add_val, &x_position, &y_position);
 			HAL_Delay(180);
 		}
 		else if (key_val == 3) // 向右移动
 		{
-			dir_right_func(&x_position, &y_position);
+			time_dir_right_func(&x_position, &y_position);
 			HAL_Delay(180);
 		}
 		else if (key_val == 4)
 		{
 			// 设置时间
-			DS3231_TimeType time = {
-				.hour = (uint8_t)hour_tens_val * 10 + (uint8_t)hour_digit_val,
-				.min = (uint8_t)min_tens_val * 10 + (uint8_t)min_digit_val,
-				//.sec = (uint8_t)sec_tens_val * 10 + (uint8_t)sec_digit_val};
-				.sec = (uint8_t)sec_val};
-			DS3231_Set_Time(&time);
+			time_set_val.year = (uint8_t)time_data.year + year_add_val,
+			time_set_val.mon = (uint8_t)time_data.mon,
+			time_set_val.date = (uint8_t)time_data.date,
+			time_set_val.hour = (uint8_t)hour_tens_val * 10 + (uint8_t)hour_digit_val,
+			time_set_val.min = (uint8_t)min_tens_val * 10 + (uint8_t)min_digit_val,
+			time_set_val.sec = (uint8_t)sec_val;
+			DS3231_Set_Time(&time_set_val);
 			DS3231_Update();
 
 			// 清除调整值
