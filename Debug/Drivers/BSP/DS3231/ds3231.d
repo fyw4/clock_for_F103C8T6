@@ -25,6 +25,8 @@ Drivers/BSP/DS3231/ds3231.o: ../Drivers/BSP/DS3231/ds3231.c \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Core/Inc/i2c.h ../Core/Inc/main.h
 
 ../Drivers/BSP/DS3231/ds3231.h:
@@ -80,6 +82,10 @@ Drivers/BSP/DS3231/ds3231.o: ../Drivers/BSP/DS3231/ds3231.c \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
 ../Core/Inc/i2c.h:
 

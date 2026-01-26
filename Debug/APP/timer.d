@@ -1,5 +1,4 @@
-Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o: \
- ../Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.c \
+APP/timer.o: ../APP/timer.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -26,7 +25,12 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o: \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
+ ../Drivers/BSP/LED/led.h ../APP/share_func.h ../Core/Inc/tim.h \
+ ../Core/Inc/main.h ../Drivers/BSP/OLED/font.h ../Drivers/BSP/OLED/oled.h \
+ ../Drivers/BSP/OLED/font.h
+
+../Core/Inc/main.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 
@@ -81,3 +85,17 @@ Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o: \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
+
+../Drivers/BSP/LED/led.h:
+
+../APP/share_func.h:
+
+../Core/Inc/tim.h:
+
+../Core/Inc/main.h:
+
+../Drivers/BSP/OLED/font.h:
+
+../Drivers/BSP/OLED/oled.h:
+
+../Drivers/BSP/OLED/font.h:

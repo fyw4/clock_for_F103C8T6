@@ -24,6 +24,8 @@ APP/games/Dino.o: ../APP/games/Dino.c ../APP/games/Dino.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/BSP/OLED/oled.h ../Drivers/BSP/OLED/font.h \
  ../Drivers/BSP/OLED/font.h ../Drivers/BSP/KEY/key.h
 
@@ -80,6 +82,10 @@ APP/games/Dino.o: ../APP/games/Dino.c ../APP/games/Dino.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
 ../Drivers/BSP/OLED/oled.h:
 

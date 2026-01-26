@@ -7,19 +7,22 @@ C_SRCS += \
 ../APP/clock.c \
 ../APP/info.c \
 ../APP/menu.c \
-../APP/share_func.c 
+../APP/share_func.c \
+../APP/timer.c 
 
 OBJS += \
 ./APP/clock.o \
 ./APP/info.o \
 ./APP/menu.o \
-./APP/share_func.o 
+./APP/share_func.o \
+./APP/timer.o 
 
 C_DEPS += \
 ./APP/clock.d \
 ./APP/info.d \
 ./APP/menu.d \
-./APP/share_func.d 
+./APP/share_func.d \
+./APP/timer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -31,4 +34,6 @@ APP/menu.o: ../APP/menu.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m3 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F103xB -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Drivers/BSP/OLED -I../Drivers/BSP/LED -I../Drivers/BSP/KEY -I../APP/games -I../APP -I../Drivers/BSP/DS3231 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"APP/menu.d" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@"
 APP/share_func.o: ../APP/share_func.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m3 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F103xB -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Drivers/BSP/OLED -I../Drivers/BSP/LED -I../Drivers/BSP/KEY -I../APP/games -I../APP -I../Drivers/BSP/DS3231 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"APP/share_func.d" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@"
+APP/timer.o: ../APP/timer.c
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m3 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F103xB -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -I../Drivers/BSP/OLED -I../Drivers/BSP/LED -I../Drivers/BSP/KEY -I../APP/games -I../APP -I../Drivers/BSP/DS3231 -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"APP/timer.d" -MT"$@" --specs=nano.specs -mfloat-abi=soft -mthumb -o "$@"
 

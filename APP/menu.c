@@ -250,7 +250,7 @@ int menu1(void)
 		{
 			OLED_PrintString(10, 0, "时间", &font16x16, OLED_COLOR_NORMAL);
 			OLED_PrintString(10, 16, "游戏", &font16x16, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 32, "风扇控制", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 32, "计时器", &font16x16, OLED_COLOR_NORMAL);
 			OLED_PrintString(10, 48, "温湿度", &font16x16, OLED_COLOR_NORMAL);
 		}
 		else

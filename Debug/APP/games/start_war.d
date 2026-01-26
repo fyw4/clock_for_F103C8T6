@@ -24,6 +24,8 @@ APP/games/start_war.o: ../APP/games/start_war.c ../APP/games/star_war.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/BSP/OLED/oled.h ../Drivers/BSP/OLED/font.h \
  ../Drivers/BSP/KEY/key.h
 
@@ -80,6 +82,10 @@ APP/games/start_war.o: ../APP/games/start_war.c ../APP/games/star_war.h \
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h:
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
 
 ../Drivers/BSP/OLED/oled.h:
 

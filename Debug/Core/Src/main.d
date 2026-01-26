@@ -24,10 +24,12 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h \
- ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/rtc.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
+ ../Core/Inc/i2c.h ../Core/Inc/main.h ../Core/Inc/rtc.h ../Core/Inc/tim.h \
  ../Core/Inc/gpio.h ../Drivers/BSP/OLED/oled.h ../Drivers/BSP/OLED/font.h \
  ../Drivers/BSP/LED/led.h ../Drivers/BSP/KEY/key.h ../APP/menu.h \
- ../APP/info.h ../APP/clock.h
+ ../APP/info.h ../APP/clock.h ../APP/timer.h
 
 ../Core/Inc/main.h:
 
@@ -81,11 +83,17 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rtc_ex.h:
 
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
+
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
+
 ../Core/Inc/i2c.h:
 
 ../Core/Inc/main.h:
 
 ../Core/Inc/rtc.h:
+
+../Core/Inc/tim.h:
 
 ../Core/Inc/gpio.h:
 
@@ -102,3 +110,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../APP/info.h:
 
 ../APP/clock.h:
+
+../APP/timer.h:
