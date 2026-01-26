@@ -8,5 +8,8 @@
 #ifndef SHARE_FUNC_H_
 #define SHARE_FUNC_H_
 
+#include "main.h"
+
+int check_key_press(void);
 
 #endif /* SHARE_FUNC_H_ */

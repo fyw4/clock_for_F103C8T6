@@ -23,44 +23,6 @@ TIME_DATA time_data;
 int8_t hour_tens_val = 0;
 uint8_t flag = 0;
 
-int check_key_press(void)
-{
-	// 按键返回
-	if (KEY_Back == GPIO_PIN_RESET)
-	{
-		HAL_Delay(50); // 去抖
-		if (KEY_Back == GPIO_PIN_RESET)
-		{
-			return 1; // 按键返回
-		}
-	}
-	else if (KEY_Up == GPIO_PIN_RESET)
-	{
-		HAL_Delay(50); // 去抖
-		if (KEY_Up == GPIO_PIN_RESET)
-		{
-			return 2; // 按键向左
-		}
-	}
-	else if (KEY_Down == GPIO_PIN_RESET)
-	{
-		HAL_Delay(50); // 去抖
-		if (KEY_Down == GPIO_PIN_RESET)
-		{
-			return 3; // 按键向右
-		}
-	}
-	else if (KEY_Confirm == GPIO_PIN_RESET)
-	{
-		HAL_Delay(50); // 去抖
-		if (KEY_Confirm == GPIO_PIN_RESET)
-		{
-			return 4; // 按键确认
-		}
-	}
-
-	return 0;
-}
 
 /**
  * @brief 根据年月日判断星期（使用基姆拉尔森计算公式）
