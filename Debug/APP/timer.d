@@ -28,7 +28,7 @@ APP/timer.o: ../APP/timer.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/BSP/LED/led.h ../APP/share_func.h ../Core/Inc/tim.h \
  ../Core/Inc/main.h ../Drivers/BSP/OLED/font.h ../Drivers/BSP/OLED/oled.h \
- ../Drivers/BSP/OLED/font.h
+ ../Drivers/BSP/OLED/font.h ../APP/timer.h
 
 ../Core/Inc/main.h:
 
@@ -99,3 +99,5 @@ APP/timer.o: ../APP/timer.c ../Core/Inc/main.h \
 ../Drivers/BSP/OLED/oled.h:
 
 ../Drivers/BSP/OLED/font.h:
+
+../APP/timer.h:
