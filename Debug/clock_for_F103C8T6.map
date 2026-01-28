@@ -6044,40 +6044,40 @@ OUTPUT(clock_for_F103C8T6.elf elf32-littlearm)
  .debug_macro   0x000000000001b7e8      0x1b8 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
  .debug_macro   0x000000000001b9a0      0x1b7 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
 
-.debug_line     0x0000000000000000    0x16e7b
+.debug_line     0x0000000000000000    0x16e7a
  .debug_line    0x0000000000000000      0xf51 APP/clock.o
  .debug_line    0x0000000000000f51      0xa31 APP/info.o
  .debug_line    0x0000000000001982      0xb0f APP/menu.o
  .debug_line    0x0000000000002491      0x7da APP/share_func.o
- .debug_line    0x0000000000002c6b      0xb3e APP/timer.o
- .debug_line    0x00000000000037a9      0xc71 APP/games/Dino.o
- .debug_line    0x000000000000441a      0xbb2 APP/games/flappy_bird.o
- .debug_line    0x0000000000004fcc      0xcb6 APP/games/start_war.o
- .debug_line    0x0000000000005c82      0xa1c Core/Src/gpio.o
- .debug_line    0x000000000000669e      0x80d Core/Src/i2c.o
- .debug_line    0x0000000000006eab      0xaf6 Core/Src/main.o
- .debug_line    0x00000000000079a1      0x843 Core/Src/rtc.o
- .debug_line    0x00000000000081e4      0x7ad Core/Src/stm32f1xx_hal_msp.o
- .debug_line    0x0000000000008991      0x878 Core/Src/stm32f1xx_it.o
- .debug_line    0x0000000000009209      0x6b7 Core/Src/sysmem.o
- .debug_line    0x00000000000098c0      0x7d4 Core/Src/system_stm32f1xx.o
- .debug_line    0x000000000000a094      0x7dd Core/Src/tim.o
- .debug_line    0x000000000000a871       0x87 Core/Startup/startup_stm32f103c8tx.o
- .debug_line    0x000000000000a8f8      0x842 Drivers/BSP/DS3231/ds3231.o
- .debug_line    0x000000000000b13a      0x7dd Drivers/BSP/KEY/key.o
- .debug_line    0x000000000000b917      0x6d4 Drivers/BSP/OLED/font.o
- .debug_line    0x000000000000bfeb      0xe65 Drivers/BSP/OLED/oled.o
- .debug_line    0x000000000000ce50      0x987 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
- .debug_line    0x000000000000d7d7      0xa5e Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
- .debug_line    0x000000000000e235      0x983 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
- .debug_line    0x000000000000ebb8     0x1d99 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.o
- .debug_line    0x0000000000010951      0x92a Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.o
- .debug_line    0x000000000001127b      0xa47 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
- .debug_line    0x0000000000011cc2      0x865 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
- .debug_line    0x0000000000012527      0xc32 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.o
- .debug_line    0x0000000000013159      0x9c6 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.o
- .debug_line    0x0000000000013b1f     0x20e0 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
- .debug_line    0x0000000000015bff     0x127c Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
+ .debug_line    0x0000000000002c6b      0xb3d APP/timer.o
+ .debug_line    0x00000000000037a8      0xc71 APP/games/Dino.o
+ .debug_line    0x0000000000004419      0xbb2 APP/games/flappy_bird.o
+ .debug_line    0x0000000000004fcb      0xcb6 APP/games/start_war.o
+ .debug_line    0x0000000000005c81      0xa1c Core/Src/gpio.o
+ .debug_line    0x000000000000669d      0x80d Core/Src/i2c.o
+ .debug_line    0x0000000000006eaa      0xaf6 Core/Src/main.o
+ .debug_line    0x00000000000079a0      0x843 Core/Src/rtc.o
+ .debug_line    0x00000000000081e3      0x7ad Core/Src/stm32f1xx_hal_msp.o
+ .debug_line    0x0000000000008990      0x878 Core/Src/stm32f1xx_it.o
+ .debug_line    0x0000000000009208      0x6b7 Core/Src/sysmem.o
+ .debug_line    0x00000000000098bf      0x7d4 Core/Src/system_stm32f1xx.o
+ .debug_line    0x000000000000a093      0x7dd Core/Src/tim.o
+ .debug_line    0x000000000000a870       0x87 Core/Startup/startup_stm32f103c8tx.o
+ .debug_line    0x000000000000a8f7      0x842 Drivers/BSP/DS3231/ds3231.o
+ .debug_line    0x000000000000b139      0x7dd Drivers/BSP/KEY/key.o
+ .debug_line    0x000000000000b916      0x6d4 Drivers/BSP/OLED/font.o
+ .debug_line    0x000000000000bfea      0xe65 Drivers/BSP/OLED/oled.o
+ .debug_line    0x000000000000ce4f      0x987 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.o
+ .debug_line    0x000000000000d7d6      0xa5e Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.o
+ .debug_line    0x000000000000e234      0x983 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.o
+ .debug_line    0x000000000000ebb7     0x1d99 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.o
+ .debug_line    0x0000000000010950      0x92a Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.o
+ .debug_line    0x000000000001127a      0xa47 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o
+ .debug_line    0x0000000000011cc1      0x865 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o
+ .debug_line    0x0000000000012526      0xc32 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc.o
+ .debug_line    0x0000000000013158      0x9c6 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rtc_ex.o
+ .debug_line    0x0000000000013b1e     0x20e0 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.o
+ .debug_line    0x0000000000015bfe     0x127c Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.o
 
 .debug_str      0x0000000000000000    0x8f31f
  .debug_str     0x0000000000000000    0x8979c APP/clock.o

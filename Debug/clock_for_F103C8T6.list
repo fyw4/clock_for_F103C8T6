@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
  16 .debug_macro  0001bb57  00000000  00000000  0003fc80  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   00016e7b  00000000  00000000  0005b7d7  2**0
+ 17 .debug_line   00016e7a  00000000  00000000  0005b7d7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    0008f31f  00000000  00000000  00072652  2**0
+ 18 .debug_str    0008f31f  00000000  00000000  00072651  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  00101971  2**0
+ 19 .comment      0000007b  00000000  00000000  00101970  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00004ba4  00000000  00000000  001019ec  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -4963,7 +4963,6 @@ int timer_UI()
             HAL_TIM_Base_Stop_IT(&htim4);
  8002358:	4881      	ldr	r0, [pc, #516]	; (8002560 <timer_UI+0x248>)
  800235a:	f006 fa3f 	bl	80087dc <HAL_TIM_Base_Stop_IT>
-            // HAL_Delay(180);
             return 0;
  800235e:	2300      	movs	r3, #0
  8002360:	e0f7      	b.n	8002552 <timer_UI+0x23a>
@@ -4978,7 +4977,6 @@ int timer_UI()
  8002368:	487d      	ldr	r0, [pc, #500]	; (8002560 <timer_UI+0x248>)
  800236a:	f006 f9e5 	bl	8008738 <HAL_TIM_Base_Start_IT>
  800236e:	e00c      	b.n	800238a <timer_UI+0x72>
-            // HAL_Delay(180);
         }
         else if (key_val == 3)
  8002370:	7ffb      	ldrb	r3, [r7, #31]
@@ -4990,7 +4988,6 @@ int timer_UI()
  8002376:	487a      	ldr	r0, [pc, #488]	; (8002560 <timer_UI+0x248>)
  8002378:	f006 fa30 	bl	80087dc <HAL_TIM_Base_Stop_IT>
  800237c:	e005      	b.n	800238a <timer_UI+0x72>
-            // HAL_Delay(180);
         }
         else if (key_val == 4)
  800237e:	7ffb      	ldrb	r3, [r7, #31]
@@ -5002,7 +4999,6 @@ int timer_UI()
  8002384:	4b75      	ldr	r3, [pc, #468]	; (800255c <timer_UI+0x244>)
  8002386:	2200      	movs	r2, #0
  8002388:	601a      	str	r2, [r3, #0]
-            // HAL_Delay(180);
         }
 
         // 绘制分数
