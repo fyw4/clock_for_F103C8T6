@@ -1,2 +1,0 @@
-timer.c:17:6:HAL_TIM_PeriodElapsedCallback	16	static
-timer.c:29:5:timer_UI	48	static
