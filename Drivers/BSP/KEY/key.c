@@ -8,6 +8,45 @@
 
 #include "key.h"
 
+int check_key_press(void)
+{
+	// 按键返回
+	if (KEY_Back == GPIO_PIN_RESET)
+	{
+		HAL_Delay(50); // 去抖
+		if (KEY_Back == GPIO_PIN_RESET)
+		{
+			return 1; // 按键返回
+		}
+	}
+	else if (KEY_Up == GPIO_PIN_RESET)
+	{
+		HAL_Delay(50); // 去抖
+		if (KEY_Up == GPIO_PIN_RESET)
+		{
+			return 2; // 按键向左
+		}
+	}
+	else if (KEY_Down == GPIO_PIN_RESET)
+	{
+		HAL_Delay(50); // 去抖
+		if (KEY_Down == GPIO_PIN_RESET)
+		{
+			return 3; // 按键向右
+		}
+	}
+	else if (KEY_Confirm == GPIO_PIN_RESET)
+	{
+		HAL_Delay(50); // 去抖
+		if (KEY_Confirm == GPIO_PIN_RESET)
+		{
+			return 4; // 按键确认
+		}
+	}
+
+	return 0;
+}
+
 uint8_t Key_GetNum(void)
 {
 	uint8_t KeyNum = 0;							//默认为0,没有按键按下返回0

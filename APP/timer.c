@@ -12,6 +12,7 @@
 #include "font.h"
 #include "oled.h"
 #include "timer.h"
+#include "key.h"
 
 uint32_t count_num = 0;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)

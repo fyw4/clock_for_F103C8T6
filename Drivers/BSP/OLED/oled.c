@@ -66,7 +66,7 @@ void OLED_Init()
   OLED_SendCmd(0xB0); /*设置页地址 set page address*/
 
   OLED_SendCmd(0x81); /*设置对比度 contract control*/
-  OLED_SendCmd(0xCF); /*128*/
+  OLED_SendCmd(0x80); /*128*/
 
   OLED_SendCmd(0xA1); /*设置分段重映射 从右到左 set segment remap*/
 

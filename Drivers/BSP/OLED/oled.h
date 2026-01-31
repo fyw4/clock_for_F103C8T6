@@ -39,4 +39,6 @@ void OLED_PrintASCIIString_offset_mid_to_down(uint8_t x, uint8_t y, char *str, c
 void OLED_PrintASCIIString_offset_up_to_down(uint8_t x, uint8_t y, char *str, const ASCIIFont *font, uint8_t font_offset, uint8_t offset, OLED_ColorMode color);
 
 void OLED_DrawPoint(int16_t X, int16_t Y);
+
+void OLED_SendCmd(uint8_t data);
 #endif /* BSP_OLED_OLED_H_ */

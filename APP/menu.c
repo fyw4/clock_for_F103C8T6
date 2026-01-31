@@ -12,6 +12,7 @@
 #include "star_war.h"
 #include "Dino.h"
 #include "clock.h"
+#include "brightness.h"
 
 uint8_t KeyNum; // 用于存储键码值
 
@@ -121,13 +122,13 @@ int menu2_settings()
 			flag--;
 			if (flag == 0)
 			{
-				flag = 2;
+				flag = 3;
 			}
 		}
 		if (KeyNum == 2) // 下一项
 		{
 			flag++;
-			if (flag == 3)
+			if (flag == 4)
 			{
 				flag = 1;
 			}
@@ -153,7 +154,12 @@ int menu2_settings()
 			action = 0;
 			HAL_Delay(300);
 		}
-
+		else if (3 == action)
+		{
+			brightness_setting();
+			action = 0;
+			HAL_Delay(300);
+		}
 
 		switch (flag)
 		{
@@ -168,12 +174,18 @@ int menu2_settings()
 			OLED_DrawImage(0, 16, &Arrow_Data_Img, OLED_COLOR_NORMAL);
 			break;
 		}
+		case 3:
+		{
+			OLED_DrawImage(0, 32, &Arrow_Data_Img, OLED_COLOR_NORMAL);
+			break;
+		}
 		default:
 			break;
 		}
 
 		OLED_PrintString(10, 0, "时间设置", &font16x16, OLED_COLOR_NORMAL);
 		OLED_PrintString(10, 16, "日期设置", &font16x16, OLED_COLOR_NORMAL);
+		OLED_PrintString(10, 32, "亮度设置", &font16x16, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
 	}
