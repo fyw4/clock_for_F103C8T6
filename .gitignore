@@ -1,6 +1,2 @@
 .vscode/
 Debug/
-Release/
-*.launch
-*.ioc
-*.cfg
