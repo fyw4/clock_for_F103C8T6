@@ -13,8 +13,12 @@
 #include "oled.h"
 #include "timer.h"
 #include "key.h"
+#include "clock.h"
+#include "ds3231.h"
 
 uint32_t count_num = 0;
+TIME_DATA time_data;
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if (htim->Instance == TIM4)
@@ -40,6 +44,28 @@ int timer_UI()
 
     while (1)
     {
+#if USE_DS3231
+        DS3231_Read_All();
+        DS3231_Read_Time();
+        time_data.hour = DS3231_Time.hour;
+        time_data.min = DS3231_Time.min;
+        time_data.sec = DS3231_Time.sec;
+        time_data.year = DS3231_Time.year;
+        time_data.mon = DS3231_Time.mon;
+        time_data.day = DS3231_Time.day;
+        time_data.date = DS3231_Time.date;
+#else
+        HAL_RTC_GetTime(&hrtc, &MyRTC_Time, RTC_FORMAT_BIN);
+        HAL_RTC_GetDate(&hrtc, &MyRTC_Date, RTC_FORMAT_BIN);
+
+        time_data.hour = MyRTC_Time.Hours;
+        time_data.min = MyRTC_Time.Minutes;
+        time_data.sec = MyRTC_Time.Seconds;
+        time_data.year = MyRTC_Date.Year;
+        time_data.mon = MyRTC_Date.Month;
+        time_data.day = MyRTC_Date.Date;
+        time_data.date = DS3231_Time.date;
+#endif
         OLED_NewFrame();
 
         key_val = check_key_press();
@@ -64,6 +90,10 @@ int timer_UI()
             // 重置计时
             count_num = 0;
         }
+
+        memset(tmp, 0, sizeof(tmp));
+        sprintf(tmp, "%02d:%02d:%02d", time_data.hour, time_data.min, time_data.sec);
+        OLED_PrintASCIIString(TIMER_CLOCK_X, TIMER_CLOCK_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
         // 绘制分数
         min_val = count_num / 6000;

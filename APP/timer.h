@@ -23,6 +23,10 @@
 #define TIMER_MS_ONES_DIGIT_X 116
 #define TIMER_MS_ONES_DIGIT_Y 28
 
+#define TIMER_CLOCK_X 38
+#define TIMER_CLOCK_Y 5
+
+
 #define TIMER_COLON_X 45
 #define TIMER_COLON_Y 20
 
