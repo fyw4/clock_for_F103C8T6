@@ -47,6 +47,8 @@ int menu2_games()
 		}
 		if (KeyNum == 4) // 后退
 		{
+			action = 0;
+			flag = 1;
 			return 0;
 		}
 
@@ -139,6 +141,8 @@ int menu2_settings()
 		}
 		if (KeyNum == 4) // 后退
 		{
+			action = 0;
+			flag = 1;
 			return 0;
 		}
 

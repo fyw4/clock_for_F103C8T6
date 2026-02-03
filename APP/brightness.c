@@ -13,7 +13,7 @@
 int brightness_setting()
 {
     uint8_t key_val = 0;
-    static uint16_t brightness_val = 0x80;
+    static uint16_t brightness_val = 0x80; // 初始亮度值
     int16_t brightness_tmp_val = brightness_val;
     int16_t add_val = 64;
 
@@ -45,7 +45,6 @@ int brightness_setting()
         }
         else if (key_val == 3)
         {
-
             // 确定
             brightness_val = brightness_tmp_val;
             OLED_SendCmd(0x81);
@@ -61,12 +60,12 @@ int brightness_setting()
 
         char tmp[20] = {0};
         memset(tmp, 0, sizeof(tmp));
-        sprintf(tmp, "%d", (char)brightness_tmp_val);
+        sprintf(tmp, "%d", 123);
         OLED_PrintASCIIString(0, 33, tmp, &afont24x19, OLED_COLOR_NORMAL);
 
         memset(tmp, 0, sizeof(tmp));
-        sprintf(tmp, "%d", (char)brightness_val);
-        OLED_PrintASCIIString(64, 33, tmp, &afont24x19, OLED_COLOR_NORMAL);
+        sprintf(tmp, "Lv:%d", (uint8_t)(brightness_tmp_val / 64 + 0.5) + 1);
+        OLED_PrintASCIIString(70, 35, tmp, &afont24x12, OLED_COLOR_NORMAL);
 
         // 画个矩形做瞄定
         OLED_DrawFilledRectangle(0, 0, 128, 32, OLED_COLOR_NORMAL);
