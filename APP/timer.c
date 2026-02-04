@@ -16,20 +16,7 @@
 #include "clock.h"
 #include "ds3231.h"
 
-uint32_t count_num = 0;
 TIME_DATA time_data;
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    if (htim->Instance == TIM4)
-    {
-        count_num++;
-        if (count_num >= 599999)
-        {
-            count_num = 599999;
-        }
-    }
-}
 
 int timer_UI()
 {

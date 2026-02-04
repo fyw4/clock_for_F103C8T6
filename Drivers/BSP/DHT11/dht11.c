@@ -5,16 +5,10 @@
  *      Author: WangQingChuan
  */
 
+#include <stdint.h>
 #include "dht11.h"
+#include "share_func.h"
 
-void Delay_us(uint32_t us)
-{
-	uint32_t delay = (HAL_RCC_GetHCLKFreq() / 4000000 * us);
-	while (delay--)
-	{
-		;
-	}
-}
 
 void DHT11_IN(void)
 {
@@ -159,4 +153,10 @@ uint8_t DHT11_Read_Data(uint8_t *temp, uint8_t *humi)
 		return 1;
 
 	return 0;
+}
+
+uint8_t get_DHT11_data()
+{
+	DHT11_Read_Data(&temperature, &humidity);
+	return 1;
 }

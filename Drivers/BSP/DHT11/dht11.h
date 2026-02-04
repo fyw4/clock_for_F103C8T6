@@ -24,5 +24,6 @@ uint8_t DHT11_Check(void);                             // DHT11发送响应信号
 uint8_t DHT11_Read_Bit(void);                          // 读取DHT11一个BIT的数据
 uint8_t DHT11_Read_Byte(void);                         // 读取DHT11一个Byte的数据
 uint8_t DHT11_Read_Data(uint8_t *temp, uint8_t *humi); // 读取DHT11湿度和温度的数据
+uint8_t get_DHT11_data();
 
 #endif /* BSP_DHT11_DHT11_H_ */

@@ -16,6 +16,7 @@
 #include "share_func.h"
 #include "ds3231.h"
 #include "dht11.h"
+#include "tim.h"
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
@@ -239,9 +240,7 @@ int clock_UI()
 	static uint8_t sec_dec_moving = 0;
 	static uint8_t sec_dec_offset_up_to_down = 0;
 
-	// uint8_t temperature = 1; // 温度
-	// uint8_t humidity = 1;	 // 湿度
-	// DHT11_Strat();
+	HAL_TIM_Base_Start_IT(&htim3);
 
 	while (1)
 	{
@@ -671,11 +670,10 @@ int clock_UI()
 		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int)time_data.mon, (int)time_data.date));
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
-
-		// DHT11_Read_Data(&temperature, &humidity);
-		// memset(tmp, 0, sizeof(tmp));
-		// sprintf(tmp, "%d %d", temperature, humidity);
-		// OLED_PrintASCIIString(64, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
+		// 温度湿度显示
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%02dC %02d%%", temperature, humidity);
+		OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
 
