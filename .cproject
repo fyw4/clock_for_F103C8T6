@@ -55,6 +55,7 @@
 									<listOptionValue builtIn="false" value="../APP/games"/>
 									<listOptionValue builtIn="false" value="../APP"/>
 									<listOptionValue builtIn="false" value="../Drivers/BSP/DS3231"/>
+									<listOptionValue builtIn="false" value="../Drivers/BSP/DHT11"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1179241526" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

@@ -15,6 +15,7 @@
 #include "oled.h"
 #include "share_func.h"
 #include "ds3231.h"
+#include "dht11.h"
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
@@ -22,7 +23,6 @@ DS3231_TimeType time_set_val;
 TIME_DATA time_data;
 int8_t hour_tens_val = 0;
 uint8_t flag = 0;
-
 
 /**
  * @brief 根据年月日判断星期（使用基姆拉尔森计算公式）
@@ -238,6 +238,10 @@ int clock_UI()
 	static uint8_t secs_dig_old = 0;
 	static uint8_t sec_dec_moving = 0;
 	static uint8_t sec_dec_offset_up_to_down = 0;
+
+	// uint8_t temperature = 1; // 温度
+	// uint8_t humidity = 1;	 // 湿度
+	// DHT11_Strat();
 
 	while (1)
 	{
@@ -664,8 +668,14 @@ int clock_UI()
 
 		// 绘制星期
 		memset(tmp, 0, sizeof(tmp));
-		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int) time_data.mon, (int)time_data.date));
+		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int)time_data.mon, (int)time_data.date));
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
+
+
+		// DHT11_Read_Data(&temperature, &humidity);
+		// memset(tmp, 0, sizeof(tmp));
+		// sprintf(tmp, "%d %d", temperature, humidity);
+		// OLED_PrintASCIIString(64, 50, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
 
@@ -784,7 +794,7 @@ int calendar_setting()
 				OLED_PrintASCIIString(MON_DIGIT_X, MON_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString(MON_DIGIT_X + 12, MON_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
 			}
-			else if(x_position == DATE_DIGIT_X)
+			else if (x_position == DATE_DIGIT_X)
 			{
 				OLED_PrintASCIIString(DATE_DIGIT_X, DATE_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
 				OLED_PrintASCIIString(DATE_DIGIT_X + 12, DATE_DIGIT_SETTING_Y, " ", &afont16x11, OLED_COLOR_NORMAL);
@@ -1025,7 +1035,7 @@ int clock_setting()
 
 		// 绘制星期
 		memset(tmp, 0, sizeof(tmp));
-		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int) time_data.mon, (int)time_data.date));
+		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int)time_data.mon, (int)time_data.date));
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
