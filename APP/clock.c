@@ -671,9 +671,18 @@ int clock_UI()
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
 		// 温度湿度显示
-		memset(tmp, 0, sizeof(tmp));
-		sprintf(tmp, "%02dC %02d%%", temperature, humidity);
-		OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
+		if (temperature == 1 && humidity == 1)
+		{
+			memset(tmp, 0, sizeof(tmp));
+			sprintf(tmp, "%cC %c%%", '*', '*');
+			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
+		}
+		else
+		{
+			memset(tmp, 0, sizeof(tmp));
+			sprintf(tmp, "%02dC %02d%%", temperature, humidity);
+			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
+		}
 
 		OLED_ShowFrame();
 
