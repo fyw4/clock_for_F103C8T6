@@ -17,6 +17,7 @@
 #include "ds3231.h"
 #include "dht11.h"
 #include "tim.h"
+#include "interrupt.h"
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
@@ -240,7 +241,7 @@ int clock_UI()
 	static uint8_t sec_dec_moving = 0;
 	static uint8_t sec_dec_offset_up_to_down = 0;
 
-	HAL_TIM_Base_Start_IT(&htim3);
+	HAL_TIM_Base_Start_IT(&htim3);//启动温湿度定时器中断
 
 	while (1)
 	{

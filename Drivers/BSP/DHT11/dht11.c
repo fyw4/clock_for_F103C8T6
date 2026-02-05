@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include "dht11.h"
 #include "share_func.h"
-
+#include "interrupt.h"
 
 void DHT11_IN(void)
 {

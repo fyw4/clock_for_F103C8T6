@@ -15,6 +15,7 @@
 #include "key.h"
 #include "clock.h"
 #include "ds3231.h"
+#include "interrupt.h"
 
 TIME_DATA time_data;
 

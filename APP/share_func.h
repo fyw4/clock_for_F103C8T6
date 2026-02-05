@@ -10,11 +10,6 @@
 
 #include "main.h"
 
-extern uint8_t temperature; // 温度
-extern uint8_t humidity;    // 湿度
-extern uint32_t count_num;
-extern uint8_t temp_humid_updated;
-
 void Delay_us(uint32_t xus);
 void Delay_ms(uint32_t xms);
 void Delay_s(uint32_t xs);
