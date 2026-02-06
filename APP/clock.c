@@ -693,10 +693,10 @@ int clock_UI()
 		}
 
 		// 显示ADC值
-		//TODO:优化数值显示
+		// TODO:优化数值显示
 		memset(tmp, 0, sizeof(tmp));
 		voltage  = (adc_value * 3.3f) / 4095.0f;
-		sprintf(tmp, "%02dV", (uint32_t)voltage);
+		sprintf(tmp, "%02dV", (int)voltage);
 		OLED_PrintASCIIString(5, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
