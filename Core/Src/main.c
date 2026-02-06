@@ -42,6 +42,7 @@
 #include "clock.h"
 #include "timer.h"
 #include "dht11.h"
+#include "interrupt.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -113,8 +114,6 @@ int main(void)
   OLED_Init();
   OLED_NewFrame();
   OLED_ShowFrame();
-
-  HAL_ADC_Start_IT(&hadc1); //????????
   /* USER CODE END 2 */
 
   /* Infinite loop */

@@ -18,6 +18,7 @@
 #include "dht11.h"
 #include "tim.h"
 #include "interrupt.h"
+#include "adc.h"
 
 RTC_TimeTypeDef MyRTC_Time; // ʱ��
 RTC_DateTypeDef MyRTC_Date; // ����
@@ -224,6 +225,7 @@ void my_RTC_settime()
 int clock_UI()
 {
 	char tmp[20] = {0};
+	float voltage = 0.0f;
 
 	static uint8_t hour_dec_old = 0;
 	static uint8_t hour_dec_offset = 0;
@@ -241,7 +243,7 @@ int clock_UI()
 	static uint8_t sec_dec_moving = 0;
 	static uint8_t sec_dec_offset_up_to_down = 0;
 
-	HAL_TIM_Base_Start_IT(&htim3);//启动温湿度定时器中断
+	HAL_TIM_Base_Start_IT(&htim3); // 启动温湿度定时器中断
 
 	while (1)
 	{
@@ -273,6 +275,11 @@ int clock_UI()
 		time_data.day = MyRTC_Date.Date;
 		time_data.date = DS3231_Time.date;
 #endif
+
+		if (time_data.sec % 3 == 0) // 每隔3s检查电量
+		{
+			HAL_ADC_Start_IT(&hadc1); // 触发单次转换
+		}
 
 		OLED_NewFrame();
 
@@ -684,6 +691,13 @@ int clock_UI()
 			sprintf(tmp, "%02dC %02d%%", temperature, humidity);
 			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 		}
+
+		// 显示ADC值
+		//TODO:优化数值显示
+		memset(tmp, 0, sizeof(tmp));
+		voltage  = (adc_value * 3.3f) / 4095.0f;
+		sprintf(tmp, "%02dV", (uint32_t)voltage);
+		OLED_PrintASCIIString(5, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
 
