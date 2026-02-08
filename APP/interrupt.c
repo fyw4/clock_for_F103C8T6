@@ -8,8 +8,11 @@
 #include "interrupt.h"
 #include "dht11.h"
 
-uint8_t temperature = 1; // 温度
-uint8_t humidity = 1;    // 湿度
+uint8_t temperature_h = 1; // 温度
+uint8_t temperature_l = 1; // 温度
+uint8_t humidity_h = 1;    // 湿度
+uint8_t humidity_l = 1;    // 湿度
+
 uint8_t temp_humid_updated = 0;
 
 uint32_t adc_value = 0;
@@ -24,14 +27,21 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         counter++;
 
         // 每2秒读取一次传感器（避免频繁读取导致卡顿）
-        if (counter >= 200) // 200 * 10ms = 2秒
+        if (counter >= 200) // 200 * 10ms = 2000毫秒
         {
             counter = 0;
+            DHT11_HIGH;
+            DHT11_Rst();
+            DHT11_Check();
 
             // 读取DHT11传感器
-            if (DHT11_Read_Data(&temperature, &humidity))
+            if (!DHT11_Read_Data(&temperature_h, &temperature_l, &humidity_h, &humidity_l))
             {
                 temp_humid_updated = 1;
+            }
+            else
+            {
+                temp_humid_updated = 0;
             }
         }
     }

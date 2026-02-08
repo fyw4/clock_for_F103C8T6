@@ -679,23 +679,24 @@ int clock_UI()
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
 		// 温度湿度显示
-		if (temperature == 1 && humidity == 1)
+		if (temp_humid_updated)
 		{
 			memset(tmp, 0, sizeof(tmp));
-			sprintf(tmp, "%cC %c%%", '*', '*');
-			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
+			sprintf(tmp, "%02d.%02dC %02d.%02d%%", temperature_h, temperature_l, humidity_h, humidity_l);
+			OLED_PrintASCIIString(20, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 		}
 		else
 		{
 			memset(tmp, 0, sizeof(tmp));
-			sprintf(tmp, "%02dC %02d%%", temperature, humidity);
+			sprintf(tmp, "%cC %c%%", '*', '*');
 			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 		}
 
 		// 显示ADC值
 		// TODO:优化数值显示
 		memset(tmp, 0, sizeof(tmp));
-		voltage  = (adc_value * 3.3f) / 4095.0f;
+		voltage = (adc_value * 3.3f) / 4095.0f;
+		// voltage = adc_value;
 		sprintf(tmp, "%02dV", (int)voltage);
 		OLED_PrintASCIIString(5, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 
