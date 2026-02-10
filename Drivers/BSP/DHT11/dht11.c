@@ -25,7 +25,7 @@ void DHT11_IN(void)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.Pin = DHT11_Pin;
 	GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
-	GPIO_InitStructure.Pull = GPIO_NOPULL;
+	GPIO_InitStructure.Pull = GPIO_PULLUP;
 	GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
 	HAL_GPIO_Init(DHT11_GPIO_Port, &GPIO_InitStructure);
 }
@@ -135,9 +135,9 @@ uint8_t DHT11_Read_Byte(void)
  * @param
  * @retval
  */
-uint8_t DHT11_Read_Data(uint8_t *temp_h, uint8_t *temp_l, uint8_t *humi_h, uint8_t *humi_l)
+uint8_t DHT11_Read_Data(uint8_t *humi_h, uint8_t *humi_l, uint8_t *temp_h, uint8_t *temp_l)
 {
-	uint8_t buf[5];
+	uint8_t buf[5] = {0};
 	uint8_t i;
 
 	DHT11_Rst();
@@ -147,14 +147,14 @@ uint8_t DHT11_Read_Data(uint8_t *temp_h, uint8_t *temp_l, uint8_t *humi_h, uint8
 		{
 			buf[i] = DHT11_Read_Byte();
 		}
-		if (buf[0] + buf[1] + buf[2] + buf[3] == buf[4])
-		{
+		// if ((buf[0] + buf[1] + buf[2] + buf[3])== buf[4])
+		// {
 			*humi_h = buf[0];
 			*humi_l = buf[1];
 			*temp_h = buf[2];
 			*temp_l = buf[3];
 			return 0;
-		}
+		// }
 	}
 
 	return 1;

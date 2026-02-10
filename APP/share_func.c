@@ -15,15 +15,11 @@
  */
 void Delay_us(uint32_t us)
 {
-    uint32_t delay = (HAL_RCC_GetHCLKFreq() / 4000000 * us);
+    uint32_t delay = (HAL_RCC_GetHCLKFreq() / 1000000  * us) / 3;
     while (delay--)
     {
         ;
     }
-    // uint32_t ticks = us * (SystemCoreClock / 1000000);
-    // uint32_t start = SysTick->VAL;
-    // while ((SysTick->VAL - start) < ticks)
-    //     ;
 }
 
 /**

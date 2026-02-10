@@ -30,12 +30,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         if (counter >= 200) // 200 * 10ms = 2000毫秒
         {
             counter = 0;
-            DHT11_HIGH;
-            DHT11_Rst();
-            DHT11_Check();
 
             // 读取DHT11传感器
-            if (!DHT11_Read_Data(&temperature_h, &temperature_l, &humidity_h, &humidity_l))
+            if (!DHT11_Read_Data(&humidity_h, &humidity_l, &temperature_h, &temperature_l))
             {
                 temp_humid_updated = 1;
             }

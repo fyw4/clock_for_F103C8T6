@@ -247,7 +247,7 @@ int clock_UI()
 
 	while (1)
 	{
-		if (check_key_press())
+		if (check_key_press() == 1)
 		{
 			my_RTC_settime();
 			return 0;
@@ -682,8 +682,8 @@ int clock_UI()
 		if (temp_humid_updated)
 		{
 			memset(tmp, 0, sizeof(tmp));
-			sprintf(tmp, "%02d.%02dC %02d.%02d%%", temperature_h, temperature_l, humidity_h, humidity_l);
-			OLED_PrintASCIIString(20, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
+			sprintf(tmp, "%02dC %02d%%", temperature_h, humidity_h);
+			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 		}
 		else
 		{
@@ -701,12 +701,6 @@ int clock_UI()
 		OLED_PrintASCIIString(5, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
-
-		if (check_key_press())
-		{
-			my_RTC_settime();
-			return 0;
-		}
 	}
 
 	return 0;
