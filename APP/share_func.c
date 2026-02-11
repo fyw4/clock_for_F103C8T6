@@ -13,13 +13,14 @@
  * @param  xus 延时时长，范围：0~233015
  * @retval 无
  */
-void Delay_us(uint32_t us)
+void Delay_us(uint32_t xus)
 {
-    uint32_t delay = (HAL_RCC_GetHCLKFreq() / 1000000  * us) / 3;
-    while (delay--)
-    {
-        ;
-    }
+    SysTick->LOAD = 72 * xus;   // 设置定时器重装值
+    SysTick->VAL = 0x00;        // 清空当前计数值
+    SysTick->CTRL = 0x00000005; // 设置时钟源为HCLK，启动定时器
+    while (!(SysTick->CTRL & 0x00010000))
+        ;                       // 等待计数到0
+    SysTick->CTRL = 0x00000004; // 关闭定时器
 }
 
 /**

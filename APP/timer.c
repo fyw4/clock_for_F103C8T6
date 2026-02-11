@@ -118,7 +118,5 @@ int timer_UI()
         OLED_ShowFrame();
     }
 
-    OLED_ShowFrame();
-
     return 0;
 }

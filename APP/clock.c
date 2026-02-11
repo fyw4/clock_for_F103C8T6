@@ -243,8 +243,6 @@ int clock_UI()
 	static uint8_t sec_dec_moving = 0;
 	static uint8_t sec_dec_offset_up_to_down = 0;
 
-	HAL_TIM_Base_Start_IT(&htim3); // 启动温湿度定时器中断
-
 	while (1)
 	{
 		if (check_key_press() == 1)
@@ -677,20 +675,6 @@ int clock_UI()
 		memset(tmp, 0, sizeof(tmp));
 		strcpy(tmp, getWeekdayByYearday((int)(time_data.year + 2000), (int)time_data.mon, (int)time_data.date));
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
-
-		// 温度湿度显示
-		if (temp_humid_updated)
-		{
-			memset(tmp, 0, sizeof(tmp));
-			sprintf(tmp, "%02dC %02d%%", temperature_h, humidity_h);
-			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
-		}
-		else
-		{
-			memset(tmp, 0, sizeof(tmp));
-			sprintf(tmp, "%cC %c%%", '*', '*');
-			OLED_PrintASCIIString(80, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
-		}
 
 		// 显示ADC值
 		// TODO:优化数值显示

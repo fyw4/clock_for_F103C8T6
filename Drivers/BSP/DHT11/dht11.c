@@ -41,7 +41,7 @@ void DHT11_Rst(void)
 	DHT11_LOW;
 	HAL_Delay(20);
 	DHT11_HIGH;
-	Delay_us(30);
+	Delay_us(13);
 }
 
 /**
@@ -147,14 +147,14 @@ uint8_t DHT11_Read_Data(uint8_t *humi_h, uint8_t *humi_l, uint8_t *temp_h, uint8
 		{
 			buf[i] = DHT11_Read_Byte();
 		}
-		// if ((buf[0] + buf[1] + buf[2] + buf[3])== buf[4])
-		// {
+		if ((buf[0] + buf[1] + buf[2] + buf[3])== buf[4])
+		{
 			*humi_h = buf[0];
 			*humi_l = buf[1];
 			*temp_h = buf[2];
 			*temp_l = buf[3];
 			return 0;
-		// }
+		}
 	}
 
 	return 1;
