@@ -1,0 +1,2 @@
+key.c:11:5:check_key_press	8	static
+key.c:50:9:Key_GetNum	8	static

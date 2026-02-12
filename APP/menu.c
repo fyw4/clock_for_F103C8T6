@@ -210,13 +210,13 @@ int menu1(void)
 			flag--;
 			if (flag == 0)
 			{
-				flag = 6;
+				flag = 5;
 			}
 		}
 		else if (KeyNum == 2) // 下一项
 		{
 			flag++;
-			if (flag == 7)
+			if (flag == 6)
 			{
 				flag = 1;
 			}
@@ -253,11 +253,6 @@ int menu1(void)
 			OLED_DrawImage(0, 0, &Arrow_Data_Img, OLED_COLOR_NORMAL);
 			break;
 		}
-		case 6:
-		{
-			OLED_DrawImage(0, 16, &Arrow_Data_Img, OLED_COLOR_NORMAL);
-			break;
-		}
 		default:
 			break;
 		}
@@ -267,12 +262,11 @@ int menu1(void)
 			OLED_PrintString(10, 0, "时间", &font16x16, OLED_COLOR_NORMAL);
 			OLED_PrintString(10, 16, "游戏", &font16x16, OLED_COLOR_NORMAL);
 			OLED_PrintString(10, 32, "计时器", &font16x16, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 48, "温湿度", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 48, "设置", &font16x16, OLED_COLOR_NORMAL);
 		}
 		else
 		{
-			OLED_PrintString(10, 0, "设置", &font16x16, OLED_COLOR_NORMAL);
-			OLED_PrintString(10, 16, "版本信息", &font16x16, OLED_COLOR_NORMAL);
+			OLED_PrintString(10, 0, "版本信息", &font16x16, OLED_COLOR_NORMAL);
 		}
 
 		OLED_ShowFrame();

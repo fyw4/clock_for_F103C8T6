@@ -15,7 +15,6 @@
 #include "oled.h"
 #include "share_func.h"
 #include "ds3231.h"
-#include "dht11.h"
 #include "tim.h"
 #include "interrupt.h"
 #include "adc.h"

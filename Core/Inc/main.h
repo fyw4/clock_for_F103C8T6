@@ -68,8 +68,6 @@ void Error_Handler(void);
 #define Confirm_GPIO_Port GPIOB
 #define Back_Pin GPIO_PIN_15
 #define Back_GPIO_Port GPIOB
-#define DHT11_Pin GPIO_PIN_5
-#define DHT11_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

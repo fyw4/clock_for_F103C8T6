@@ -6,7 +6,6 @@
  */
 
 #include "interrupt.h"
-#include "dht11.h"
 
 uint32_t adc_value = 0;
 

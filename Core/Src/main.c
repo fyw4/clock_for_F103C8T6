@@ -41,9 +41,7 @@
 #include "info.h"
 #include "clock.h"
 #include "timer.h"
-#include "dht11.h"
 #include "interrupt.h"
-#include "temp_humid.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -84,7 +82,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
- int menu2 = 1;
+  int menu2 = 1;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -115,7 +113,6 @@ int main(void)
   OLED_NewFrame();
   OLED_ShowFrame();
 
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,7 +123,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-    if (menu2 == 1) // 默认界面：显示时�????
+    if (menu2 == 1) // 默认界面：显示时�?????
     {
       clock_UI();
     }
@@ -140,13 +137,9 @@ int main(void)
     }
     else if (menu2 == 4)
     {
-      temp_humid_UI();
-    }
-    else if (menu2 == 5)
-    {
       menu2_settings();
     }
-    else if (menu2 == 6)
+    else if (menu2 == 5)
     {
       info_message();
     }
