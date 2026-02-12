@@ -10,7 +10,8 @@
 
 #include "stdint.h"
 #include "string.h"
-typedef struct ASCIIFont {
+typedef struct ASCIIFont
+{
   uint8_t h;
   uint8_t w;
   uint8_t *chars;
@@ -28,7 +29,8 @@ extern const ASCIIFont afont16x11;
  * @note  字库前4字节存储utf8编码 剩余字节存储字模数据
  * @note 字库数据可以使用波特律动LED取模助手生成(https://led.baud-dance.com)
  */
-typedef struct Font {
+typedef struct Font
+{
   uint8_t h;              // 字高度
   uint8_t w;              // 字宽度
   const uint8_t *chars;   // 字库 字库前4字节存储utf8编码 剩余字节存储字模数据
@@ -44,13 +46,19 @@ extern const Font font8x6;
  * @brief 图片结构体
  * @note  图片数据可以使用波特律动LED取模助手生成(https://led.baud-dance.com)
  */
-typedef struct Image {
+typedef struct Image
+{
   uint8_t w;           // 图片宽度
   uint8_t h;           // 图片高度
   const uint8_t *data; // 图片数据
 } Image;
 
 extern Image Arrow_Data_Img;
+
+extern const Image battIconEmpty_Img;
+extern const Image battIconLow_Img;
+extern const Image battIconHigh_Img;
+extern const Image battIconFull_Img;
 
 extern const unsigned char dioda16[32];
 

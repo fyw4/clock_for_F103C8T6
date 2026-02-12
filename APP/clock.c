@@ -225,6 +225,7 @@ int clock_UI()
 {
 	char tmp[20] = {0};
 	float voltage = 0.0f;
+	uint8_t voltage_precent = 0;
 
 	static uint8_t hour_dec_old = 0;
 	static uint8_t hour_dec_offset = 0;
@@ -676,12 +677,29 @@ int clock_UI()
 		OLED_PrintASCIIString(DAY_DIGIT_X, DAY_DIGIT_Y, tmp, &afont8x6, OLED_COLOR_NORMAL);
 
 		// 显示ADC值
-		// TODO:优化数值显示
-		memset(tmp, 0, sizeof(tmp));
 		voltage = (adc_value * 3.3f) / 4095.0f;
-		// voltage = adc_value;
-		sprintf(tmp, "%02dV", (int)voltage);
-		OLED_PrintASCIIString(5, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
+		voltage_precent = (voltage / 3.0) * 100 > 100 ? 100 : (voltage / 3.0) * 100;
+
+		if(voltage_precent == 100)
+		{
+			OLED_DrawImage(5, 52, &battIconFull_Img, OLED_COLOR_NORMAL);
+		}
+		else if(voltage_precent >= 70 && voltage_precent < 100)
+		{
+			OLED_DrawImage(5, 52, &battIconHigh_Img, OLED_COLOR_NORMAL);
+		}
+		else if(voltage_precent >= 40 && voltage_precent < 70)
+		{
+			OLED_DrawImage(5, 52, &battIconLow_Img, OLED_COLOR_NORMAL);
+		}
+		else
+		{
+			OLED_DrawImage(5, 52, &battIconEmpty_Img, OLED_COLOR_NORMAL);
+		}
+
+		memset(tmp, 0, sizeof(tmp));
+		sprintf(tmp, "%02d%%", (int)voltage_precent);
+		OLED_PrintASCIIString(23, 50, tmp, &afont12x6, OLED_COLOR_NORMAL);
 
 		OLED_ShowFrame();
 	}
